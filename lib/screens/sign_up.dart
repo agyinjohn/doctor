@@ -63,17 +63,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-
           child: SingleChildScrollView(
-
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-
               height: 20,
-
             ),
             const Center(
               child: Text(
@@ -83,7 +79,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     letterSpacing: -1,
                     fontSize: 45,
                     fontWeight: FontWeight.bold),
-
               ),
             ),
             const SizedBox(
@@ -92,7 +87,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                "Create your safepace account",
+                "Create your SafePlace account",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
               ),
             ),
@@ -132,7 +127,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             const SizedBox(
               height: 40,
             ),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -153,9 +147,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ],
             ),
             const SizedBox(
-
               height: 30,
-
             ),
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -166,9 +158,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ],
             ),
             const SizedBox(
-
               height: 20,
-
             ),
             GestureDetector(
               onTap: () => Navigator.pushNamed(context, LoginScreen.routeName),

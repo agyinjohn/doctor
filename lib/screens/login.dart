@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:doctor/screens/dashboard_page.dart';
 import 'package:doctor/screens/sign_up.dart';
 import 'package:doctor/utils/authmethods.dart';
@@ -31,12 +33,16 @@ class _LoginScreenState extends State<LoginScreen> {
             emailController.text.trim(),
             context);
         if (res) {
-          Navigator.pushNamed(context, DashboardPage.routeName);
+          Navigator.pushNamedAndRemoveUntil(
+              context, DashboardPage.routeName, (route) => false);
         } else {
           showSnackBar(
               context: context,
               txt: "Something went wrong check and try again");
         }
+      } else {
+        showSnackBar(context: context, txt: "Fill the fields");
+        return;
       }
       setState(() {
         isLoading = true;

@@ -1,4 +1,5 @@
 // lib/doctor_list_screen.dart
+
 import 'package:doctor/screens/doctor_detailscreen.dart';
 import 'package:doctor/utils/models/doctor_model.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class DoctorListScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => DoctorDetailScreen(doctor: doctor),
+                  builder: (context) => ChatScreen(doctor: doctor),
                 ),
               );
             },

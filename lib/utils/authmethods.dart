@@ -10,7 +10,8 @@ class Authentication {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestorage = FirebaseFirestore.instance;
   static bool isLoading = false;
-
+  Stream<User?> get authChanges => _auth.authStateChanges();
+  User get user => _auth.currentUser!;
   Future<UserModel> getUserDetails() async {
     DocumentSnapshot snapshot = await _firestorage
         .collection('users')

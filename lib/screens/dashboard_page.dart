@@ -5,6 +5,7 @@ import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import 'dashboard_fragments/home_fragment.dart';
 import 'dashboard_fragments/schedule_fragment.dart';
+import 'dashboard_fragments/profile_fragment.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -39,7 +40,7 @@ class _DashboardPageState extends State<DashboardPage> {
       'icon': 'assets/images/ic_profile.png',
       'icon_active': 'assets/images/ic_profile.png',
       'label': 'Profile',
-      'fragment': const Center(child: Text('Profile')),
+      'fragment': const ProfileFragment(),
     },
   ];
 

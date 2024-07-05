@@ -63,15 +63,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-          child: SizedBox(
-        width: size.width,
-        height: size.height,
+          child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-              height: 30,
+              height: 20,
             ),
             const Center(
               child: Text(
@@ -84,24 +82,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
             const SizedBox(
-              height: 40,
+              height: 25,
             ),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                "Create your safepace account",
+                "Create your SafePlace account",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
               ),
             ),
             const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: CustomTextField(
-                  prefix: const Icon(Icons.mail_outline),
-                  hintText: "Name",
-                  controller: nameController),
+              height: 5,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -116,7 +107,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   prefix: const Icon(Icons.lock_open),
                   hintText: "Password",
                   isPass: true,
-                  controller: passwordController),
+                  controller: emailController),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -124,20 +115,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   prefix: const Icon(Icons.lock_open),
                   isPass: true,
                   hintText: "Confirm Password",
-                  controller: confirmPasswordController),
+                  controller: emailController),
             ),
             const SizedBox(
               height: 20,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: CustomButton(
-                text: isLoading ? "Loading..." : "Sign Up",
-                onPressed: () => signUp(),
-              ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: CustomButton(text: "Sign Up"),
             ),
             const SizedBox(
-              height: 20,
+              height: 40,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -159,7 +147,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ],
             ),
             const SizedBox(
-              height: 20,
+              height: 30,
             ),
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -170,7 +158,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ],
             ),
             const SizedBox(
-              height: 30,
+              height: 20,
             ),
             GestureDetector(
               onTap: () => Navigator.pushNamed(context, LoginScreen.routeName),

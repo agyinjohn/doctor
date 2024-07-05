@@ -1,3 +1,4 @@
+import 'package:doctor/screens/chatscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
@@ -33,7 +34,7 @@ class _DashboardPageState extends State<DashboardPage> {
       'icon': 'assets/images/ic_message.png',
       'icon_active': 'assets/images/ic_message.png',
       'label': 'Chats',
-      'fragment': const Center(child: Text('Chats')),
+      'fragment': DoctorListScreen(),
     },
     {
       'icon': 'assets/images/ic_profile.png',

@@ -1,8 +1,10 @@
 import 'package:doctor/screens/dashboard_page.dart';
 import 'package:doctor/screens/sign_up.dart';
+import 'package:doctor/utils/authmethods.dart';
 import 'package:doctor/widgets/custom_button.dart';
 import 'package:doctor/widgets/custom_textfield.dart';
 import 'package:doctor/widgets/signup_option_card.dart';
+import 'package:doctor/widgets/snaackbar.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,6 +16,39 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  Authentication authentication = Authentication();
+  bool isLoading = false;
+  void login() async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      if (emailController.text.trim().isNotEmpty &&
+          passwordController.text.trim().isNotEmpty) {
+        final res = await authentication.loginUser(
+            passwordController.text.trim(),
+            emailController.text.trim(),
+            context);
+        if (res) {
+          Navigator.pushNamed(context, DashboardPage.routeName);
+        } else {
+          showSnackBar(
+              context: context,
+              txt: "Something went wrong check and try again");
+        }
+      }
+      setState(() {
+        isLoading = true;
+      });
+    } catch (er) {
+      setState(() {
+        isLoading = false;
+      });
+      showSnackBar(context: context, txt: er.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 prefix: const Icon(Icons.lock_open),
                 hintText: "Password",
                 isPass: true,
-                controller: emailController),
+                controller: passwordController),
           ),
           const SizedBox(
             height: 20,
@@ -70,10 +105,8 @@ class _LoginScreenState extends State<LoginScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: CustomButton(
-              text: "Sign in",
-              onPressed: () =>
-                  Navigator.pushNamed(context, DashboardPage.routeName),
-            ),
+                text: isLoading ? "Loading..." : "Sign in",
+                onPressed: isLoading ? null : login),
           ),
           const SizedBox(
             height: 40,

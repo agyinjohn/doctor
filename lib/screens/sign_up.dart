@@ -1,7 +1,9 @@
 import 'package:doctor/screens/login.dart';
+import 'package:doctor/utils/authmethods.dart';
 import 'package:doctor/widgets/custom_button.dart';
 import 'package:doctor/widgets/custom_textfield.dart';
 import 'package:doctor/widgets/signup_option_card.dart';
+import 'package:doctor/widgets/snaackbar.dart';
 import 'package:flutter/material.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -13,18 +15,65 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController emailController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  Authentication authentication = Authentication();
+  bool isLoading = false;
+  void signUp() async {
+    if (emailController.text.trim().isNotEmpty &&
+        passwordController.text.trim().isNotEmpty &&
+        nameController.text.trim().isNotEmpty &&
+        confirmPasswordController.text.trim().isNotEmpty &&
+        (passwordController.text.trim() ==
+            confirmPasswordController.text.trim())) {
+      try {
+        setState(() {
+          isLoading = true;
+        });
+        final res = await authentication.signUp(
+            name: nameController.text.trim(),
+            email: emailController.text.trim(),
+            password: passwordController.text.trim(),
+            context: context);
+        if (res == "Successful") {
+          showSnackBar(
+              context: context,
+              txt: 'Successful sign up \n login with the same credentials');
+        }
+        setState(() {
+          isLoading = false;
+        });
+      } catch (err) {
+        setState(() {
+          isLoading = false;
+        });
+        showSnackBar(context: context, txt: err.toString());
+      }
+    } else {
+      showSnackBar(
+          context: context,
+          txt: "Something went wrong check your credentials well");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
+
           child: SingleChildScrollView(
+
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
+
               height: 20,
+
             ),
             const Center(
               child: Text(
@@ -34,6 +83,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     letterSpacing: -1,
                     fontSize: 45,
                     fontWeight: FontWeight.bold),
+
               ),
             ),
             const SizedBox(
@@ -82,6 +132,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             const SizedBox(
               height: 40,
             ),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -102,7 +153,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ],
             ),
             const SizedBox(
+
               height: 30,
+
             ),
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -113,7 +166,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ],
             ),
             const SizedBox(
+
               height: 20,
+
             ),
             GestureDetector(
               onTap: () => Navigator.pushNamed(context, LoginScreen.routeName),

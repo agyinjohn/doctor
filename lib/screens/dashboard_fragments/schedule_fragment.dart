@@ -209,33 +209,34 @@ class _ScheduleFragmentState extends State<ScheduleFragment> {
       'Upcoming Schedule',
       'Completed Schedule',
     ];
-    return SizedBox(
+
+    return Container(
       height: 50,
       child: PageView.builder(
         controller: PageController(
           initialPage: 1,
-          viewportFraction: 0.6,
+          viewportFraction: 0.5, // Adjust the viewportFraction for closer items
         ),
         onPageChanged: (currentIndex) {
-          statusActive = list[currentIndex];
-          setState(() {});
+          setState(() {
+            statusActive = list[currentIndex];
+          });
         },
         itemCount: list.length,
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) {
           bool isActive = statusActive == list[index];
-          return UnconstrainedBox(
+          return Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 4), // Adjusted padding
             child: Container(
               decoration: BoxDecoration(
                 color:
                     isActive ? const Color(0xff63B4FF).withOpacity(0.1) : null,
                 borderRadius: BorderRadius.circular(100),
               ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 32,
-                vertical: 16,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               alignment: Alignment.center,
               child: Text(
                 list[index],

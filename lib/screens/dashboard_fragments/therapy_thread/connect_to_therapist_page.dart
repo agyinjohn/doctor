@@ -1,0 +1,241 @@
+import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../../utils/data/doctors_list.dart';
+import '../../../utils/models/doctor_model.dart';
+
+import 'package:doctor/widgets/custom_searchbar.dart';
+
+import '../../../widgets/counselling_professionals_card.dart';
+import '../../chat_screen.dart';
+import 'all_professionals_screen.dart';
+
+class ConnectToTherapistPage extends StatefulWidget {
+  const ConnectToTherapistPage({super.key});
+
+  @override
+  State<ConnectToTherapistPage> createState() => _ConnectToTherapistPageState();
+}
+
+class _ConnectToTherapistPageState extends State<ConnectToTherapistPage> {
+  bool _isTapped = false;
+  int selectedIndex = 0; // Initializing selectedIndex to 0
+
+  void onCategorySelected(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Gap(20),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                  setState(() {
+                    _isTapped = true;
+                  });
+                },
+                child: Icon(
+                  Icons.arrow_back_ios_new_outlined,
+                  color: _isTapped ? Colors.blue : Colors.black,
+                ),
+              ),
+              const Gap(24),
+              _buildPageHeading(),
+              const Gap(12),
+              _buildSearchBar(context),
+              const Gap(16),
+              const Text(
+                'Categories',
+                style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold),
+              ),
+              const Gap(14),
+              _buildCategories(),
+              const Gap(20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Top Professionals',
+                    style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const AllProfessionalsScreen()));
+                    },
+                    child: const Text(
+                      'See All',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 18,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Expanded(
+                child: _buildTopProfessionalsList(), // List of professionals
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPageHeading() {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Hi, Krisy',
+          style: TextStyle(
+            color: Colors.blue,
+            fontSize: 38,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          'Look for doctors and therapists very easily',
+          style: TextStyle(
+            color: Colors.blue,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSearchBar(context) {
+    final TextEditingController searchController = TextEditingController();
+    return CustomSearchBar(controller: searchController);
+  }
+
+  Widget _buildCategories() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        CategoryItem(
+          image: 'assets/images/counseling.jpg',
+          title: 'Counselling',
+          isSelected: selectedIndex == 0,
+          onTap: () => onCategorySelected(0),
+        ),
+        CategoryItem(
+          image: 'assets/images/behaviorial.jpg',
+          title: 'Behavioral',
+          isSelected: selectedIndex == 1,
+          onTap: () => onCategorySelected(1),
+        ),
+        CategoryItem(
+          image: 'assets/images/psychotic.jpg',
+          title: 'Psychotic',
+          isSelected: selectedIndex == 2,
+          onTap: () => onCategorySelected(2),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTopProfessionalsList() {
+    return ListView.builder(
+      physics: const BouncingScrollPhysics(),
+      itemCount: 3,
+      itemBuilder: (context, index) {
+        // return CounsellingProfessionalsCard(
+        //   doctor: doctors[index],
+        // );
+
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChatScreen(doctor: doctors[index]),
+              ),
+            );
+          },
+          child: CounsellingProfessionalsCard(
+            doctor: doctors[index],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class CategoryItem extends StatelessWidget {
+  const CategoryItem({
+    super.key,
+    required this.image,
+    required this.title,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  final String image;
+  final String title;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: isSelected
+              ? Colors.blue
+              : const Color.fromARGB(255, 202, 214, 240),
+          borderRadius: BorderRadius.circular(14),
+        ),
+        alignment: Alignment.center,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Image.asset(
+                  image,
+                  width: 54,
+                  height: 54,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Text(
+                title,
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 13,
+                  color: isSelected ? Colors.white : Colors.blue,
+                  height: 1.2,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

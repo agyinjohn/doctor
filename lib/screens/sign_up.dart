@@ -107,7 +107,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   prefix: const Icon(Icons.lock_open),
                   hintText: "Password",
                   isPass: true,
-                  controller: emailController),
+                  controller: passwordController),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -115,14 +115,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   prefix: const Icon(Icons.lock_open),
                   isPass: true,
                   hintText: "Confirm Password",
-                  controller: emailController),
+                  controller: confirmPasswordController),
             ),
             const SizedBox(
               height: 20,
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
-              child: CustomButton(text: "Sign Up"),
+              child: CustomButton(
+                text: "Sign Up",
+                onPressed: () {
+                  isLoading ? null : signUp;
+                },
+              ),
             ),
             const SizedBox(
               height: 40,

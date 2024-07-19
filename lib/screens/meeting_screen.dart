@@ -3,19 +3,19 @@ import 'dart:math';
 import 'package:doctor/widgets/home_button.dart';
 import 'package:flutter/material.dart';
 
-import '../utils/jitsimethods.dart';
+// import '../utils/jitsimethods.dart';
 
 class MeetingScreen extends StatelessWidget {
   MeetingScreen({super.key});
 
-  final JitsiMeetMethods _jitsiMeetMethods = JitsiMeetMethods();
+  // final JitsiMeetMethods _jitsiMeetMethods = JitsiMeetMethods();
 
-  createNewMeeting() async {
-    var random = Random();
-    String roomName = (random.nextInt(10000000) + 10000000).toString();
-    _jitsiMeetMethods.createMeeting(
-        roomName: roomName, isAudioMuted: true, isVideoMuted: true);
-  }
+  // createNewMeeting() async {
+  //   var random = Random();
+  //   String roomName = (random.nextInt(10000000) + 10000000).toString();
+  //   _jitsiMeetMethods.createMeeting(
+  //       roomName: roomName, isAudioMuted: true, isVideoMuted: true);
+  // }
 
   joinMeeting(BuildContext context) {
     Navigator.pushNamed(context, '/video-call');
@@ -29,7 +29,8 @@ class MeetingScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             HomeMeetingButton(
-              onPressed: createNewMeeting,
+              onPressed: () {},
+              // createNewMeeting,
               text: 'New Meeting',
               icon: Icons.videocam,
             ),

@@ -1,8 +1,8 @@
 import 'package:doctor/utils/authmethods.dart';
 import 'package:flutter/material.dart';
-import 'package:jitsi_meet/jitsi_meet.dart';
+// import 'package:jitsi_meet/jitsi_meet.dart';
 
-import '../utils/jitsimethods.dart';
+// import '../utils/jitsimethods.dart';
 import '../utils/meeting_options.dart';
 
 class VideoCallScreen extends StatefulWidget {
@@ -16,7 +16,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
   final Authentication _authMethods = Authentication();
   late TextEditingController meetingIdController;
   late TextEditingController nameController;
-  final JitsiMeetMethods _jitsiMeetMethods = JitsiMeetMethods();
+  // final JitsiMeetMethods _jitsiMeetMethods = JitsiMeetMethods();
   bool isAudioMuted = true;
   bool isVideoMuted = true;
 
@@ -34,17 +34,17 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
     super.dispose();
     meetingIdController.dispose();
     nameController.dispose();
-    JitsiMeet.removeAllListeners();
+    // JitsiMeet.removeAllListeners();
   }
 
-  _joinMeeting() {
-    _jitsiMeetMethods.createMeeting(
-      roomName: meetingIdController.text,
-      isAudioMuted: isAudioMuted,
-      isVideoMuted: isVideoMuted,
-      username: nameController.text,
-    );
-  }
+  // _joinMeeting() {
+  //   _jitsiMeetMethods.createMeeting(
+  //     roomName: meetingIdController.text,
+  //     isAudioMuted: isAudioMuted,
+  //     isVideoMuted: isVideoMuted,
+  //     username: nameController.text,
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +93,8 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
           ),
           const SizedBox(height: 20),
           InkWell(
-            onTap: _joinMeeting,
+            onTap: () {},
+            // _joinMeeting,
             child: const Padding(
               padding: EdgeInsets.all(8),
               child: Text(

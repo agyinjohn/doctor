@@ -1,6 +1,6 @@
 import 'package:doctor/screens/meeting_screen.dart';
 import 'package:doctor/utils/models/doctor_model.dart';
-import 'package:doctor/utils/models/message.dart';
+import 'package:doctor/utils/models/message_card_model.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 

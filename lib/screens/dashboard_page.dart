@@ -1,4 +1,4 @@
-import 'package:doctor/screens/meditate.dart';
+import 'package:doctor/screens/dashboard_fragments/meditate_fragment.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';

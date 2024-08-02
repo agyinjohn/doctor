@@ -1,7 +1,9 @@
-import 'package:doctor/screens/dashboard_fragments/therapy_thread/connect_to_therapist_page.dart';
+// import 'package:doctor/screens/dashboard_fragments/therapy_thread/connect_to_therapist_page.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor/widgets/custom_button.dart';
 import 'package:gap/gap.dart';
+
+import 'hub_thread/recommended_rooms.dart';
 
 class HubFragment extends StatefulWidget {
   const HubFragment({super.key});
@@ -19,11 +21,11 @@ class _TherapyFragmentState extends State<HubFragment> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Gap(48),
+            const Gap(60),
             _buildPageHeading(),
             const Gap(12),
             _buildIllustration(),
-            const Gap(24),
+            const Gap(40),
             _buildButton(context),
           ],
         ),
@@ -51,5 +53,10 @@ Widget _buildIllustration() {
 }
 
 Widget _buildButton(BuildContext context) {
-  return CustomButton(text: 'Get heard', onPressed: () {});
+  return CustomButton(
+      text: 'Get heard',
+      onPressed: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const RecommendedRooms()));
+      });
 }

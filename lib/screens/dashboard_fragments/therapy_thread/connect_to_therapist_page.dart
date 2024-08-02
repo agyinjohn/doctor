@@ -1,11 +1,14 @@
+// import 'package:doctor/screens/dashboard_fragments/home_fragment.dart';
+import 'package:doctor/screens/dashboard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../utils/data/doctors_list.dart';
-import '../../../utils/models/doctor_model.dart';
+// import '../../../utils/models/doctor_model.dart';
 
 import 'package:doctor/widgets/custom_searchbar.dart';
 
+import '../../../utils/models/doctor_model.dart';
 import '../../../widgets/counselling_professionals_card.dart';
 import '../../chat_screen.dart';
 import 'all_professionals_screen.dart';
@@ -21,10 +24,24 @@ class _ConnectToTherapistPageState extends State<ConnectToTherapistPage> {
   bool _isTapped = false;
   int selectedIndex = 0; // Initializing selectedIndex to 0
 
+  // Define a map from category index to a list of related specialties
+  final Map<int, List<String>> categorySpecialties = {
+    0: ['Counselor', 'Psychotherapist'], // Counseling
+    1: ['Cognitive Behavioral Therapist'], // Behavioral
+    2: ['Psychotic'], // Psychotic
+  };
+
   void onCategorySelected(int index) {
     setState(() {
       selectedIndex = index;
     });
+  }
+
+  List<DoctorModel> getFilteredDoctors() {
+    List<String> selectedSpecialties = categorySpecialties[selectedIndex] ?? [];
+    return doctors
+        .where((doctor) => selectedSpecialties.contains(doctor.specialty))
+        .toList();
   }
 
   @override
@@ -39,7 +56,10 @@ class _ConnectToTherapistPageState extends State<ConnectToTherapistPage> {
               const Gap(20),
               GestureDetector(
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const DashboardPage()));
                   setState(() {
                     _isTapped = true;
                   });
@@ -156,25 +176,24 @@ class _ConnectToTherapistPageState extends State<ConnectToTherapistPage> {
   }
 
   Widget _buildTopProfessionalsList() {
+    List<DoctorModel> filteredDoctors = getFilteredDoctors();
+
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
-      itemCount: 3,
+      itemCount: filteredDoctors.length,
       itemBuilder: (context, index) {
-        // return CounsellingProfessionalsCard(
-        //   doctor: doctors[index],
-        // );
-
         return GestureDetector(
           onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ChatScreen(doctor: doctors[index]),
+                builder: (context) =>
+                    ChatScreen(doctor: filteredDoctors[index]),
               ),
             );
           },
           child: CounsellingProfessionalsCard(
-            doctor: doctors[index],
+            doctor: filteredDoctors[index],
           ),
         );
       },

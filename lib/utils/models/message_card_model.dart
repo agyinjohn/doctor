@@ -1,4 +1,4 @@
-enum MessageSender { user, doctor }
+enum MessageSender { user, doctor, ai }
 
 class Message {
   final String text;

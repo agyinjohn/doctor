@@ -1,5 +1,13 @@
+import 'package:doctor/screens/dashboard_fragments/profile_thread/about_screen.dart';
+import 'package:doctor/screens/dashboard_fragments/profile_thread/edit_profile_screen.dart';
+import 'package:doctor/screens/dashboard_fragments/profile_thread/faq_and_support_screen.dart';
+import 'package:doctor/screens/dashboard_fragments/profile_thread/my_communities%20_page.dart';
+import 'package:doctor/screens/dashboard_fragments/profile_thread/notifications_screen.dart';
+import 'package:doctor/screens/dashboard_fragments/profile_thread/privacy_policy.dart';
 import 'package:doctor/widgets/custom_button.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -22,7 +30,7 @@ class _ProfileFragmentState extends State<ProfileFragment> {
               vertical: 0,
             ),
             children: [
-              const Gap(8),
+              // const Gap(2),
               Text(
                 'Settings',
                 style: GoogleFonts.poppins().copyWith(
@@ -32,7 +40,7 @@ class _ProfileFragmentState extends State<ProfileFragment> {
                   height: 1,
                 ),
               ),
-              const Gap(20),
+              const Gap(16),
               Container(
                 height: 138,
                 padding: const EdgeInsets.all(20),
@@ -54,7 +62,7 @@ class _ProfileFragmentState extends State<ProfileFragment> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          'Faridat Ibundan',
+                          'Krisy Media',
                           style: GoogleFonts.poppins().copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -64,7 +72,7 @@ class _ProfileFragmentState extends State<ProfileFragment> {
                         ),
                         const Gap(2),
                         Text(
-                          '@faridatibun',
+                          '@krisymedia@gmail.com',
                           style: GoogleFonts.poppins().copyWith(
                             fontWeight: FontWeight.normal,
                             fontSize: 14,
@@ -90,21 +98,108 @@ class _ProfileFragmentState extends State<ProfileFragment> {
                   ),
                 ),
               ),
+              const Gap(8),
               Container(
-                // height: 138,
-                padding: const EdgeInsets.all(14),
-                decoration: const BoxDecoration(
-                  // borderRadius: BorderRadius.circular(12),
-                  color: Color(0xffFAFAFA),
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Color.fromARGB(255, 223, 239, 249),
                 ),
                 child: Column(children: [
-                  buildCard('assets/images/edit_personal_details.png',
-                      'Edit personal details'),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  EditProfilePage(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            const begin = Offset(
+                                1.0, 0.0); // Start off the screen to the right
+                            const end =
+                                Offset.zero; // End at the current screen
+                            const curve = Curves.easeInOut; // Animation curve
+
+                            var tween = Tween(begin: begin, end: end)
+                                .chain(CurveTween(curve: curve));
+                            var offsetAnimation = animation.drive(tween);
+
+                            return SlideTransition(
+                              position: offsetAnimation,
+                              child: child,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    child: buildCard('assets/images/edit_personal_details.png',
+                        'Edit personal details'),
+                  ),
                   const Gap(8),
-                  buildCard(
-                      'assets/images/my_communities.png', 'My Communities'),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  MyCommunitiesScreen(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            const begin = Offset(
+                                1.0, 0.0); // Start off the screen to the right
+                            const end =
+                                Offset.zero; // End at the current screen
+                            const curve = Curves.easeInOut; // Animation curve
+
+                            var tween = Tween(begin: begin, end: end)
+                                .chain(CurveTween(curve: curve));
+                            var offsetAnimation = animation.drive(tween);
+
+                            return SlideTransition(
+                              position: offsetAnimation,
+                              child: child,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    child: buildCard(
+                        'assets/images/my_communities.png', 'My Communities'),
+                  ),
                   const Gap(8),
-                  buildCard('assets/images/notifications.png', 'Notifications'),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    NotificationsScreen(),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              const begin = Offset(1.0,
+                                  0.0); // Start off the screen to the right
+                              const end =
+                                  Offset.zero; // End at the current screen
+                              const curve = Curves.easeInOut; // Animation curve
+
+                              var tween = Tween(begin: begin, end: end)
+                                  .chain(CurveTween(curve: curve));
+                              var offsetAnimation = animation.drive(tween);
+
+                              return SlideTransition(
+                                position: offsetAnimation,
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      child: buildCard(
+                          'assets/images/notifications.png', 'Notifications')),
                 ]),
               ),
               const Gap(12),
@@ -120,22 +215,110 @@ class _ProfileFragmentState extends State<ProfileFragment> {
                   ),
                 ),
               ),
+              const Gap(8),
               Container(
                 // height: 138,
                 padding: const EdgeInsets.all(20),
-                decoration: const BoxDecoration(
-                  // borderRadius: BorderRadius.circular(12),
-                  color: Color(0xffFAFAFA),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Color.fromARGB(255, 223, 239, 249),
                 ),
                 child: Column(children: [
-                  buildCard('assets/images/faq.png', 'FAQ & Support'),
-                  const Gap(8),
-                  buildCard(
-                      'assets/images/privacy_policy.png', 'Privacy Policy'),
-                  const Gap(8),
-                  buildCard('assets/images/about.png', 'About'),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    FaqAndSupportScreen(),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              const begin = Offset(1.0,
+                                  0.0); // Start off the screen to the right
+                              const end =
+                                  Offset.zero; // End at the current screen
+                              const curve = Curves.easeInOut; // Animation curve
+
+                              var tween = Tween(begin: begin, end: end)
+                                  .chain(CurveTween(curve: curve));
+                              var offsetAnimation = animation.drive(tween);
+
+                              return SlideTransition(
+                                position: offsetAnimation,
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      child:
+                          buildCard('assets/images/faq.png', 'FAQ & Support')),
+                  const Gap(4),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  PrivacyPolicyScreen(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            const begin = Offset(
+                                1.0, 0.0); // Start off the screen to the right
+                            const end =
+                                Offset.zero; // End at the current screen
+                            const curve = Curves.easeInOut; // Animation curve
+
+                            var tween = Tween(begin: begin, end: end)
+                                .chain(CurveTween(curve: curve));
+                            var offsetAnimation = animation.drive(tween);
+
+                            return SlideTransition(
+                              position: offsetAnimation,
+                              child: child,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    child: buildCard(
+                        'assets/images/privacy_policy.png', 'Privacy Policy'),
+                  ),
+                  const Gap(4),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    AboutScreen(),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              const begin = Offset(1.0,
+                                  0.0); // Start off the screen to the right
+                              const end =
+                                  Offset.zero; // End at the current screen
+                              const curve = Curves.easeInOut; // Animation curve
+
+                              var tween = Tween(begin: begin, end: end)
+                                  .chain(CurveTween(curve: curve));
+                              var offsetAnimation = animation.drive(tween);
+
+                              return SlideTransition(
+                                position: offsetAnimation,
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      child: buildCard('assets/images/about.png', 'About')),
                 ]),
               ),
+              const Gap(10),
               const CustomButton(text: 'Get to Premium'),
             ]));
   }

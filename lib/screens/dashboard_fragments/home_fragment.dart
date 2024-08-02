@@ -1,8 +1,17 @@
+import 'package:doctor/screens/dashboard_fragments/home_thread/assessment_questions_thread/assessment_instructions_screen.dart';
+import 'package:doctor/screens/dashboard_fragments/home_thread/resources.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+
+import 'home_thread/chatbot_screen.dart';
+import 'home_thread/combined_professionals_screen.dart';
+import 'profile_thread/edit_profile_screen.dart';
 
 class HomeFragment extends StatelessWidget {
   const HomeFragment({super.key});
@@ -17,13 +26,13 @@ class HomeFragment extends StatelessWidget {
       ),
       children: [
         const Gap(64),
-        buildHeader(),
+        buildHeader(context),
         const Gap(30),
         buildMyAppointment(),
         const Gap(24),
         buildSearch(),
         const Gap(24),
-        buildCategories(),
+        buildCategories(context),
         const Gap(40),
         buildNearDoctor(),
       ],
@@ -201,38 +210,73 @@ class HomeFragment extends StatelessWidget {
     );
   }
 
-  Widget buildCategories() {
+  Widget buildCategories(BuildContext context) {
     final categories = [
-      {'icon': 'assets/images/ic_virus.png', 'title': 'Covid 19'},
-      {'icon': 'assets/images/ic_profile_add.png', 'title': 'Doctor'},
-      {'icon': 'assets/images/ic_link.png', 'title': 'Medicine'},
-      {'icon': 'assets/images/ic_hospital.png', 'title': 'Hospital'},
+      {
+        'icon': 'assets/images/ic_virus.png',
+        'title': 'Resources',
+        'Function': () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const ResourceScreen()));
+        },
+      },
+      {
+        'icon': 'assets/images/ic_hospital.png',
+        'title': 'Chatbot',
+        'Function': () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const ChatbotScreen()));
+        },
+      },
+      {
+        'icon': 'assets/images/ic_link.png',
+        'title': 'Assessment',
+        'Function': () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const AssessmentInstructionScreen()));
+        },
+      },
+      {
+        'icon': 'assets/images/ic_profile_add.png',
+        'title': 'Professionals',
+        'Function': () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const ProfessionalsScreen()));
+        },
+      },
     ];
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: categories.map((e) {
         return Column(
           children: [
-            Container(
-              height: 72,
-              width: 72,
-              decoration: const BoxDecoration(
-                color: Color(0xffFAFAFA),
-                shape: BoxShape.circle,
-              ),
-              alignment: Alignment.center,
-              child: Image.asset(
-                e['icon']!,
-                width: 24,
-                height: 24,
+            GestureDetector(
+              onTap: e['Function']! as VoidCallback,
+              child: Container(
+                height: 64,
+                width: 64,
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 223, 239, 249),
+                  shape: BoxShape.circle,
+                ),
+                alignment: Alignment.center,
+                child: Image.asset(
+                  e['icon']!.toString(),
+                  width: 22,
+                  height: 22,
+                ),
               ),
             ),
             const Gap(8),
             Text(
-              e['title']!,
+              e['title']!.toString(),
               style: GoogleFonts.poppins().copyWith(
                 fontWeight: FontWeight.normal,
-                fontSize: 15,
+                fontSize: 13,
                 color: const Color(0xff8696BB),
                 height: 1,
               ),
@@ -247,7 +291,7 @@ class HomeFragment extends StatelessWidget {
     return Container(
       height: 56,
       decoration: BoxDecoration(
-        color: const Color(0xffFAFAFA),
+        color: Color.fromARGB(255, 223, 239, 249),
         borderRadius: BorderRadius.circular(12),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -395,7 +439,7 @@ class HomeFragment extends StatelessWidget {
     );
   }
 
-  Widget buildHeader() {
+  Widget buildHeader(BuildContext context) {
     return Row(
       children: [
         Expanded(
@@ -413,7 +457,7 @@ class HomeFragment extends StatelessWidget {
               ),
               const Gap(6),
               Text(
-                'Hi James',
+                'Krisy',
                 style: GoogleFonts.poppins().copyWith(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
@@ -424,10 +468,16 @@ class HomeFragment extends StatelessWidget {
             ],
           ),
         ),
-        Image.asset(
-          'assets/images/profile.png',
-          width: 56,
-          height: 56,
+        GestureDetector(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => EditProfilePage()));
+          },
+          child: Image.asset(
+            'assets/images/profile.png',
+            width: 56,
+            height: 56,
+          ),
         ),
       ],
     );

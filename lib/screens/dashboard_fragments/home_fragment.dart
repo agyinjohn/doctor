@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctor/screens/dashboard_fragments/home_thread/assessment_questions_thread/assessment_instructions_screen.dart';
 import 'package:doctor/screens/dashboard_fragments/home_thread/resources.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,30 +15,72 @@ import 'home_thread/chatbot_screen.dart';
 import 'home_thread/combined_professionals_screen.dart';
 import 'profile_thread/edit_profile_screen.dart';
 
-class HomeFragment extends StatelessWidget {
+class HomeFragment extends StatefulWidget {
   const HomeFragment({super.key});
   static const routeName = "/homscreen";
+
+  @override
+  State<HomeFragment> createState() => _HomeFragmentState();
+}
+
+class _HomeFragmentState extends State<HomeFragment> {
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  FirebaseAuth auth = FirebaseAuth.instance;
+  Map<String, dynamic> userDetails = {};
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    getUserDetails();
+  }
+
+  getUserDetails() async {
+    try {
+      DocumentSnapshot doc = await firebaseFirestore
+          .collection('users')
+          .doc(auth.currentUser!.uid)
+          .get();
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      print(data);
+      setState(() {
+        userDetails = data;
+        isLoading = false;
+      });
+      print(userDetails);
+    } catch (e) {
+      print('Error fetching user details: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 24,
-        vertical: 0,
-      ),
-      children: [
-        const Gap(64),
-        buildHeader(context),
-        const Gap(30),
-        buildMyAppointment(),
-        const Gap(24),
-        buildSearch(),
-        const Gap(24),
-        buildCategories(context),
-        const Gap(40),
-        buildNearDoctor(),
-      ],
-    );
+    return isLoading
+        ? Center(
+            child: CircularProgressIndicator(),
+          )
+        : ListView(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: 0,
+            ),
+            children: [
+              const Gap(64),
+              buildHeader(context, userDetails),
+              const Gap(30),
+              buildMyAppointment(),
+              const Gap(24),
+              buildSearch(),
+              const Gap(24),
+              buildCategories(context),
+              const Gap(40),
+              buildNearDoctor(),
+            ],
+          );
   }
 
   Widget buildNearDoctor() {
@@ -401,7 +445,7 @@ class HomeFragment extends StatelessWidget {
                       DateFormat('EEEE, d MMMM').format(DateTime.now()),
                       style: GoogleFonts.poppins().copyWith(
                         fontWeight: FontWeight.normal,
-                        fontSize: 12,
+                        fontSize: 8,
                         color: const Color(0xffFFFFFF),
                         height: 1,
                       ),
@@ -416,7 +460,7 @@ class HomeFragment extends StatelessWidget {
                       AssetImage(
                         'assets/images/ic_clock.png',
                       ),
-                      size: 16,
+                      size: 10,
                       color: Colors.white,
                     ),
                     const Gap(8),
@@ -424,7 +468,7 @@ class HomeFragment extends StatelessWidget {
                       '11:00 - 12:00 AM',
                       style: GoogleFonts.poppins().copyWith(
                         fontWeight: FontWeight.normal,
-                        fontSize: 12,
+                        fontSize: 10,
                         color: const Color(0xffFFFFFF),
                         height: 1,
                       ),
@@ -439,7 +483,7 @@ class HomeFragment extends StatelessWidget {
     );
   }
 
-  Widget buildHeader(BuildContext context) {
+  Widget buildHeader(BuildContext context, Map<String, dynamic> data) {
     return Row(
       children: [
         Expanded(
@@ -457,7 +501,7 @@ class HomeFragment extends StatelessWidget {
               ),
               const Gap(6),
               Text(
-                'Krisy',
+                data['name'] ?? '',
                 style: GoogleFonts.poppins().copyWith(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
@@ -473,11 +517,13 @@ class HomeFragment extends StatelessWidget {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => EditProfilePage()));
           },
-          child: Image.asset(
-            'assets/images/profile.png',
-            width: 56,
-            height: 56,
-          ),
+          child: data['profileUrl'] != ''
+              ? Image.network(data['profileUrl'])
+              : Image.asset(
+                  'assets/images/profile.png',
+                  width: 56,
+                  height: 56,
+                ),
         ),
       ],
     );

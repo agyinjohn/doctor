@@ -1,1 +1,38 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"doctor-fe681","appId":"1:226465480767:android:1d81de7cd8d6d36817788a","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"doctor-fe681","configurations":{"android":"1:226465480767:android:1d81de7cd8d6d36817788a","web":"1:226465480767:web:6a4988302aecd86a17788a"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "doctor-fe681",
+          "appId": "1:226465480767:android:1d81de7cd8d6d36817788a",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "doctor-fe681",
+          "configurations": {
+            "android": "1:226465480767:android:1d81de7cd8d6d36817788a",
+            "web": "1:226465480767:web:6a4988302aecd86a17788a"
+          }
+        }
+      }
+    }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint"
+      ]
+    }
+  ]
+}

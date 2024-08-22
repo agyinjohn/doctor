@@ -23,11 +23,11 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
   void login() async {
     try {
-      setState(() {
-        isLoading = true;
-      });
       if (emailController.text.trim().isNotEmpty &&
           passwordController.text.trim().isNotEmpty) {
+        setState(() {
+          isLoading = true;
+        });
         final res = await authentication.loginUser(
             passwordController.text.trim(),
             emailController.text.trim(),
@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
         return;
       }
       setState(() {
-        isLoading = true;
+        isLoading = false;
       });
     } catch (er) {
       setState(() {

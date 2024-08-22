@@ -1,5 +1,7 @@
 // import 'package:doctor/screens/dashboard_fragments/home_fragment.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctor/screens/dashboard_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,6 +23,38 @@ class ConnectToTherapistPage extends StatefulWidget {
 }
 
 class _ConnectToTherapistPageState extends State<ConnectToTherapistPage> {
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  FirebaseAuth auth = FirebaseAuth.instance;
+  Map<String, dynamic> userDetails = {};
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    getUserDetails();
+  }
+
+  getUserDetails() async {
+    try {
+      DocumentSnapshot doc = await firebaseFirestore
+          .collection('users')
+          .doc(auth.currentUser!.uid)
+          .get();
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      print(data);
+      setState(() {
+        userDetails = data;
+        isLoading = false;
+      });
+      print(userDetails);
+    } catch (e) {
+      print('Error fetching user details: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   bool _isTapped = false;
   int selectedIndex = 0; // Initializing selectedIndex to 0
 
@@ -46,91 +80,95 @@ class _ConnectToTherapistPageState extends State<ConnectToTherapistPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Gap(20),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const DashboardPage()));
-                  setState(() {
-                    _isTapped = true;
-                  });
-                },
-                child: Icon(
-                  Icons.arrow_back_ios_new_outlined,
-                  color: _isTapped ? Colors.blue : Colors.black,
-                ),
-              ),
-              const Gap(24),
-              _buildPageHeading(),
-              const Gap(12),
-              _buildSearchBar(context),
-              const Gap(16),
-              const Text(
-                'Categories',
-                style: TextStyle(
-                    color: Colors.blue,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold),
-              ),
-              const Gap(14),
-              _buildCategories(),
-              const Gap(20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Top Professionals',
-                    style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const AllProfessionalsScreen()));
-                    },
-                    child: const Text(
-                      'See All',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 18,
+    return isLoading
+        ? Center(child: CircularProgressIndicator())
+        : Scaffold(
+            body: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 12.0, horizontal: 20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Gap(20),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const DashboardPage()));
+                        setState(() {
+                          _isTapped = true;
+                        });
+                      },
+                      child: Icon(
+                        Icons.arrow_back_ios_new_outlined,
+                        color: _isTapped ? Colors.blue : Colors.black,
                       ),
                     ),
-                  )
-                ],
+                    const Gap(24),
+                    _buildPageHeading(),
+                    const Gap(12),
+                    _buildSearchBar(context),
+                    const Gap(16),
+                    const Text(
+                      'Categories',
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const Gap(14),
+                    _buildCategories(),
+                    const Gap(20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Top Professionals',
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const AllProfessionalsScreen()));
+                          },
+                          child: const Text(
+                            'See All',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 18,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Expanded(
+                      child:
+                          _buildTopProfessionalsList(), // List of professionals
+                    ),
+                  ],
+                ),
               ),
-              Expanded(
-                child: _buildTopProfessionalsList(), // List of professionals
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
   }
 
   Widget _buildPageHeading() {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Hi, Krisy',
+          'Hi, ${userDetails['name']}',
           style: TextStyle(
             color: Colors.blue,
-            fontSize: 38,
+            fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
         ),

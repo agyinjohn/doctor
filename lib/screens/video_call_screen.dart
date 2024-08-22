@@ -1,5 +1,6 @@
 import 'package:doctor/utils/authmethods.dart';
 import 'package:flutter/material.dart';
+import 'package:jitsi_meet_flutter_sdk/jitsi_meet_flutter_sdk.dart';
 // import 'package:jitsi_meet/jitsi_meet.dart';
 
 // import '../utils/jitsimethods.dart';

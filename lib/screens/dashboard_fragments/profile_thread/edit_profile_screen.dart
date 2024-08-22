@@ -1,5 +1,6 @@
-import 'dart:io'; // Add this line
-
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -16,6 +17,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   XFile? _profileImage;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> _pickImage() async {
     final ImagePicker _picker = ImagePicker();
@@ -27,13 +30,41 @@ class _EditProfilePageState extends State<EditProfilePage> {
     }
   }
 
-  void _saveProfile() {
+  Future<void> _updateUserDetails() async {
     if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Profile updated successfully!'),
-        ),
-      );
+      try {
+        User? user = _auth.currentUser;
+        if (user != null) {
+          // Update email if it's changed
+          if (_emailController.text != user.email) {
+            await user.updateEmail(_emailController.text);
+          }
+
+          // Update password if it's changed
+          if (_passwordController.text.isNotEmpty) {
+            await user.updatePassword(_passwordController.text);
+          }
+
+          // Update Firestore document
+          await _firestore.collection('users').doc(user.uid).update({
+            'username': _usernameController.text,
+            'email': _emailController.text,
+            // Handle the profile image update if necessary
+          });
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Profile updated successfully!'),
+            ),
+          );
+        }
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error updating profile: $e'),
+          ),
+        );
+      }
     }
   }
 
@@ -57,9 +88,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     children: [
                       CircleAvatar(
                         radius: 70,
-                        backgroundImage: AssetImage(
-                          'assets/images/profile.png',
-                        ),
+                        backgroundImage: _profileImage == null
+                            ? const AssetImage('assets/images/profile.png')
+                            : FileImage(File(_profileImage!.path))
+                                as ImageProvider,
                       ),
                       Positioned(
                         bottom: 0,
@@ -131,9 +163,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
                 const SizedBox(height: 30),
                 ElevatedButton(
-                  onPressed: _saveProfile,
+                  onPressed: _updateUserDetails,
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.all(14),
+                    padding: const EdgeInsets.all(14),
                     backgroundColor: Colors.blue,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),

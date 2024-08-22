@@ -80,7 +80,7 @@ class _ChatScreenState extends ConsumerState<ChatbotScreen> {
 
     String responseText = '';
     message =
-        'Please you are suppose to provide answers to people who are using kudiAcces mobile which was created to handle their fanancial records and this is their questions, reply them as finacial trained model for handling fanacial issues question: ${message}';
+        'Please you are suppose to provide answers to people who are using doctor mobile which was created to handle their health issues concerning them provide answer to their questions, reply them as medical health trained model for handling health issues issues question: ${message}';
     try {
       final response = await http.post(
         Uri.parse(url),
@@ -196,7 +196,7 @@ class _ChatScreenState extends ConsumerState<ChatbotScreen> {
                     padding: const EdgeInsets.all(10),
                     margin: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: isUserMessage ? Colors.blue : Colors.white54,
+                      color: isUserMessage ? Colors.blue : Colors.grey,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(

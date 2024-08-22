@@ -65,18 +65,25 @@ class CounsellingProfessionalsCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    doctor.specialty,
-                    softWrap: false,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 13),
+                  SizedBox(
+                    width: 190,
+                    child: Text(
+                      doctor.specialty,
+                      softWrap: false,
+                      overflow: TextOverflow.fade,
+                      style: const TextStyle(fontSize: 13),
+                    ),
                   ),
-                  Text(
-                    doctor.name,
-                    softWrap: false,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 18),
+                  SizedBox(
+                    width: 180,
+                    child: Text(
+                      doctor.name,
+                      softWrap: false,
+                      overflow: TextOverflow.fade,
+                      maxLines: 1,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
                   ),
                 ],
               ),

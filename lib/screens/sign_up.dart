@@ -21,12 +21,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Authentication authentication = Authentication();
   bool isLoading = false;
   void signUp() async {
+    print("sign up ......");
     if (emailController.text.trim().isNotEmpty &&
         passwordController.text.trim().isNotEmpty &&
         nameController.text.trim().isNotEmpty &&
-        confirmPasswordController.text.trim().isNotEmpty &&
-        (passwordController.text.trim() ==
-            confirmPasswordController.text.trim())) {
+        confirmPasswordController.text.trim().isNotEmpty) {
       try {
         setState(() {
           isLoading = true;
@@ -97,6 +96,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: CustomTextField(
+                  prefix: const Icon(Icons.person),
+                  hintText: "Name",
+                  controller: nameController),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: CustomTextField(
                   prefix: const Icon(Icons.mail_outline),
                   hintText: "Email",
                   controller: emailController),
@@ -122,11 +128,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
-              child: CustomButton(
-                text: "Sign Up",
-                onPressed: () {
-                  isLoading ? null : signUp;
-                },
+              child: GestureDetector(
+                child: CustomButton(
+                  text: isLoading ? "Loading" : "Sign Up",
+                  onPressed: () {
+                    signUp();
+                  },
+                ),
               ),
             ),
             const SizedBox(

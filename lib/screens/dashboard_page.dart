@@ -85,7 +85,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 item['label'],
                 style: GoogleFonts.nunito().copyWith(
                   fontWeight: FontWeight.bold,
-                  fontSize: 14,
+                  fontSize: 12,
                 ),
               ),
               selectedColor: const Color(0xff63B4FF),

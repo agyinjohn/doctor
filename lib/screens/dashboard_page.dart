@@ -1,10 +1,11 @@
-import 'package:doctor/screens/chatscreen.dart';
+import 'package:doctor/screens/dashboard_fragments/meditate_fragment.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import 'dashboard_fragments/home_fragment.dart';
-import 'dashboard_fragments/schedule_fragment.dart';
+import 'dashboard_fragments/hub_fragment.dart';
+import 'dashboard_fragments/therapy_fragment.dart';
 import 'dashboard_fragments/profile_fragment.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -27,14 +28,20 @@ class _DashboardPageState extends State<DashboardPage> {
     {
       'icon': 'assets/images/ic_calendar.png',
       'icon_active': 'assets/images/ic_calendar_active.png',
-      'label': 'Schedule',
-      'fragment': const ScheduleFragment(),
+      'label': 'Therapy',
+      'fragment': const TherapyFragment(),
     },
     {
       'icon': 'assets/images/ic_message.png',
       'icon_active': 'assets/images/ic_message.png',
-      'label': 'Chats',
-      'fragment': DoctorListScreen(),
+      'label': 'Meditate',
+      'fragment': MeditateFragment(),
+    },
+    {
+      'icon': 'assets/images/ic_profile.png',
+      'icon_active': 'assets/images/ic_profile.png',
+      'label': 'Hub',
+      'fragment': const HubFragment(),
     },
     {
       'icon': 'assets/images/ic_profile.png',
@@ -78,7 +85,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 item['label'],
                 style: GoogleFonts.nunito().copyWith(
                   fontWeight: FontWeight.bold,
-                  fontSize: 14,
+                  fontSize: 12,
                 ),
               ),
               selectedColor: const Color(0xff63B4FF),

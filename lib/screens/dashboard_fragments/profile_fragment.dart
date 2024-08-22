@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:doctor/screens/dashboard_fragments/home_thread/chatbot_screen.dart';
+import 'package:doctor/utils/models/usermodel.dart';
 import 'package:doctor/widgets/custom_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,133 +15,173 @@ class ProfileFragment extends StatefulWidget {
 }
 
 class _ProfileFragmentState extends State<ProfileFragment> {
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  FirebaseAuth auth = FirebaseAuth.instance;
+  Map<String, dynamic> userDetails = {};
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    getUserDetails();
+  }
+
+  getUserDetails() async {
+    try {
+      DocumentSnapshot doc = await firebaseFirestore
+          .collection('users')
+          .doc(auth.currentUser!.uid)
+          .get();
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      print(data);
+      setState(() {
+        userDetails = data;
+        isLoading = false;
+      });
+      print(userDetails);
+    } catch (e) {
+      print('Error fetching user details: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
-        body: ListView(
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24,
-              vertical: 0,
-            ),
-            children: [
-              const Gap(8),
-              Text(
-                'Settings',
-                style: GoogleFonts.poppins().copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: const Color(0xff0D1B34),
-                  height: 1,
-                ),
+      appBar: AppBar(),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : ListView(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24,
+                vertical: 0,
               ),
-              const Gap(20),
-              Container(
-                height: 138,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: const Color(0xff4894FE),
-                ),
-                child: Column(
-                  children: [
-                    ClipOval(
-                      child: Image.asset(
-                        'assets/images/imran.png',
-                        width: 48,
-                        height: 48,
-                      ),
+              children: [
+                  const Gap(8),
+                  Text(
+                    'Profile',
+                    style: GoogleFonts.poppins().copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: const Color(0xff0D1B34),
+                      height: 1,
                     ),
-                    const Gap(14),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                  ),
+                  const Gap(20),
+                  Container(
+                    height: 138,
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: const Color(0xff4894FE),
+                    ),
+                    child: Column(
                       children: [
-                        Text(
-                          'Faridat Ibundan',
-                          style: GoogleFonts.poppins().copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: const Color(0xffFFFFFF),
-                            height: 1,
+                        ClipOval(
+                          child: Image.asset(
+                            'assets/images/imran.png',
+                            width: 48,
+                            height: 48,
                           ),
                         ),
-                        const Gap(2),
-                        Text(
-                          '@faridatibun',
-                          style: GoogleFonts.poppins().copyWith(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            color: const Color(0xffCBE1FF),
-                            height: 1,
-                          ),
+                        const Gap(14),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            userDetails.isEmpty
+                                ? Container()
+                                : Text(
+                                    userDetails['name'] ?? '',
+                                    style: GoogleFonts.poppins().copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      color: const Color(0xffFFFFFF),
+                                      height: 1,
+                                    ),
+                                  ),
+                            const Gap(2),
+                            Text(
+                              userDetails['email'] ?? '',
+                              style: GoogleFonts.poppins().copyWith(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                color: const Color(0xffCBE1FF),
+                                height: 1,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-              const Gap(16),
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: Text(
-                  'ACCOUNT',
-                  style: GoogleFonts.poppins().copyWith(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 14,
-                    color: const Color(0xff0D1B34),
-                    height: 1,
                   ),
-                ),
-              ),
-              Container(
-                // height: 138,
-                padding: const EdgeInsets.all(14),
-                decoration: const BoxDecoration(
-                  // borderRadius: BorderRadius.circular(12),
-                  color: Color(0xffFAFAFA),
-                ),
-                child: Column(children: [
-                  buildCard('assets/images/edit_personal_details.png',
-                      'Edit personal details'),
-                  const Gap(8),
-                  buildCard(
-                      'assets/images/my_communities.png', 'My Communities'),
-                  const Gap(8),
-                  buildCard('assets/images/notifications.png', 'Notifications'),
-                ]),
-              ),
-              const Gap(12),
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: Text(
-                  'OTHERS',
-                  style: GoogleFonts.poppins().copyWith(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 14,
-                    color: const Color(0xff0D1B34),
-                    height: 1,
+                  const Gap(16),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Text(
+                      'ACCOUNT',
+                      style: GoogleFonts.poppins().copyWith(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14,
+                        color: const Color(0xff0D1B34),
+                        height: 1,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              Container(
-                // height: 138,
-                padding: const EdgeInsets.all(20),
-                decoration: const BoxDecoration(
-                  // borderRadius: BorderRadius.circular(12),
-                  color: Color(0xffFAFAFA),
-                ),
-                child: Column(children: [
-                  buildCard('assets/images/faq.png', 'FAQ & Support'),
-                  const Gap(8),
-                  buildCard(
-                      'assets/images/privacy_policy.png', 'Privacy Policy'),
-                  const Gap(8),
-                  buildCard('assets/images/about.png', 'About'),
+                  Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: const BoxDecoration(
+                      color: Color(0xffFAFAFA),
+                    ),
+                    child: Column(children: [
+                      buildCard('assets/images/edit_personal_details.png',
+                          'Edit personal details'),
+                      const Gap(8),
+                      buildCard(
+                          'assets/images/my_communities.png', 'My Communities'),
+                      const Gap(8),
+                      buildCard(
+                          'assets/images/notifications.png', 'Notifications'),
+                    ]),
+                  ),
+                  const Gap(12),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Text(
+                      'OTHERS',
+                      style: GoogleFonts.poppins().copyWith(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14,
+                        color: const Color(0xff0D1B34),
+                        height: 1,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: const BoxDecoration(
+                      color: Color(0xffFAFAFA),
+                    ),
+                    child: Column(children: [
+                      GestureDetector(
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChatbotScreen())),
+                          child: buildCard(
+                              'assets/images/faq.png', 'FAQ & Support')),
+                      const Gap(8),
+                      buildCard(
+                          'assets/images/privacy_policy.png', 'Privacy Policy'),
+                      const Gap(8),
+                      buildCard('assets/images/about.png', 'About'),
+                    ]),
+                  ),
+                  const CustomButton(text: 'Get to Premium'),
                 ]),
-              ),
-              const CustomButton(text: 'Get to Premium'),
-            ]));
+    );
   }
 
   Widget buildCard(String imageURL, String title) {

@@ -21,12 +21,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Authentication authentication = Authentication();
   bool isLoading = false;
   void signUp() async {
+    print("sign up ......");
     if (emailController.text.trim().isNotEmpty &&
         passwordController.text.trim().isNotEmpty &&
         nameController.text.trim().isNotEmpty &&
-        confirmPasswordController.text.trim().isNotEmpty &&
-        (passwordController.text.trim() ==
-            confirmPasswordController.text.trim())) {
+        confirmPasswordController.text.trim().isNotEmpty) {
       try {
         setState(() {
           isLoading = true;
@@ -63,15 +62,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-          child: SizedBox(
-        width: size.width,
-        height: size.height,
+          child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-              height: 30,
+              height: 20,
             ),
             const Center(
               child: Text(
@@ -84,22 +81,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
             const SizedBox(
-              height: 40,
+              height: 25,
             ),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                "Create your safepace account",
+                "Create your SafePlace account",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 5,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: CustomTextField(
-                  prefix: const Icon(Icons.mail_outline),
+                  prefix: const Icon(Icons.person),
                   hintText: "Name",
                   controller: nameController),
             ),
@@ -130,14 +127,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
               height: 20,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: CustomButton(
-                text: isLoading ? "Loading..." : "Sign Up",
-                onPressed: () => signUp(),
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: GestureDetector(
+                child: CustomButton(
+                  text: isLoading ? "Loading" : "Sign Up",
+                  onPressed: () {
+                    signUp();
+                  },
+                ),
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 40,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -159,7 +160,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ],
             ),
             const SizedBox(
-              height: 20,
+              height: 30,
             ),
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -170,7 +171,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ],
             ),
             const SizedBox(
-              height: 30,
+              height: 20,
             ),
             GestureDetector(
               onTap: () => Navigator.pushNamed(context, LoginScreen.routeName),

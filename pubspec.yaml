@@ -47,6 +47,8 @@ dependencies:
   jitsi_meet_flutter_sdk: ^10.0.2
   firebase_messaging: ^15.0.4
   flutter_voximplant: ^3.13.0
+  flutter_iconly: ^1.0.2
+  fl_chart: ^0.68.0
   # flutter_launcher_icons: ^0.13.1
   # jitsi_meet: ^4.0.0
 

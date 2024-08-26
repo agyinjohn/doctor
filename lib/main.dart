@@ -1,5 +1,6 @@
 import 'package:doctor/firebase_options.dart';
 import 'package:doctor/route.dart';
+import 'package:doctor/screens/admin/admin_dashboard_page.dart';
 import 'package:doctor/screens/login.dart';
 import 'package:doctor/screens/dashboard_page.dart';
 
@@ -30,19 +31,20 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // Use StreamBuilder to listen to auth changes
-      home: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasData) {
-            return const DashboardPage();
-          } else {
-            return const LoginScreen();
-          }
-        },
-      ),
+      home: AdminDashboardPage(),
+      // StreamBuilder<User?>(
+      //   stream: FirebaseAuth.instance.authStateChanges(),
+      //   builder: (context, snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       return const Center(child: CircularProgressIndicator());
+      //     }
+      //     if (snapshot.hasData) {
+      //       return const DashboardPage();
+      //     } else {
+      //       return const LoginScreen();
+      //     }
+      //   },
+      // ),
       onGenerateRoute: (settings) => onGenerateRoute(settings),
     );
   }

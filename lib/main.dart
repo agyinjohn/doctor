@@ -31,20 +31,21 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // Use StreamBuilder to listen to auth changes
-      home: AdminDashboardPage(),
-      // StreamBuilder<User?>(
-      //   stream: FirebaseAuth.instance.authStateChanges(),
-      //   builder: (context, snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.waiting) {
-      //       return const Center(child: CircularProgressIndicator());
-      //     }
-      //     if (snapshot.hasData) {
-      //       return const DashboardPage();
-      //     } else {
-      //       return const LoginScreen();
-      //     }
-      //   },
-      // ),
+      home: 
+      StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasData) {
+          
+            return const DashboardPage();
+          } else {
+            return const LoginScreen();
+          }
+        },
+      ),
       onGenerateRoute: (settings) => onGenerateRoute(settings),
     );
   }

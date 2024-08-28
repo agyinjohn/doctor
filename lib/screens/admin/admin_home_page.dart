@@ -110,7 +110,7 @@ Widget _buildNearDoctor() {
       ),
       const Gap(6),
       ListView.builder(
-        itemCount: 2,
+        itemCount: 5,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.all(0),

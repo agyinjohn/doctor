@@ -55,7 +55,7 @@ class _DashboardPageState extends State<AdminDashboardPage> {
       'icon': Icon(IconlyBroken.paper),
       'icon_active': Icon(IconlyBold.paper),
       'label': 'Resources',
-      'fragment': const ResourcesPage(),
+      'fragment':  ResourcesPage(),
     },
 
     // {
@@ -85,7 +85,7 @@ class _DashboardPageState extends State<AdminDashboardPage> {
             borderRadius: BorderRadius.circular(12),
           ),
           itemPadding: const EdgeInsets.all(12),
-          selectedItemColor: const Color(0xff63B4FF),
+          selectedItemColor: const Color.fromARGB(255, 46, 133, 214),
           items: menu.map((item) {
             return SalomonBottomBarItem(
               icon: item['icon'],

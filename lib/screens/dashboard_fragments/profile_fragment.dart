@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctor/screens/dashboard_fragments/home_thread/chatbot_screen.dart';
+import 'package:doctor/screens/login.dart';
 import 'package:doctor/utils/models/usermodel.dart';
 import 'package:doctor/widgets/custom_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../utils/authmethods.dart';
 
 class ProfileFragment extends StatefulWidget {
   const ProfileFragment({super.key});
@@ -17,6 +20,7 @@ class ProfileFragment extends StatefulWidget {
 class _ProfileFragmentState extends State<ProfileFragment> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
+  Authentication authentication = Authentication();
   Map<String, dynamic> userDetails = {};
   bool isLoading = true;
 
@@ -179,7 +183,17 @@ class _ProfileFragmentState extends State<ProfileFragment> {
                       buildCard('assets/images/about.png', 'About'),
                     ]),
                   ),
-                  const CustomButton(text: 'Get to Premium'),
+                  CustomButton(
+                    text: 'Logout',
+                    onPressed: () {
+                      authentication.signOut();
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                        (Route<dynamic> route) => false,
+                      );
+                    },
+                  ),
                 ]),
     );
   }

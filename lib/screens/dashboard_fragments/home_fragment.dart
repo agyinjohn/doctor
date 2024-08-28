@@ -517,13 +517,11 @@ class _HomeFragmentState extends State<HomeFragment> {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => EditProfilePage()));
           },
-          child: data['profileUrl'] != ''
-              ? Image.network(data['profileUrl'])
-              : Image.asset(
-                  'assets/images/profile.png',
-                  width: 56,
-                  height: 56,
-                ),
+          child: Image.asset(
+            'assets/images/profile.png',
+            width: 56,
+            height: 56,
+          ),
         ),
       ],
     );

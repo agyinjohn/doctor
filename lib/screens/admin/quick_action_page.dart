@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class QuickActionPage extends StatelessWidget {
@@ -21,56 +19,65 @@ class QuickActionPage extends StatelessWidget {
                 height: size.height * 0.22,
                 color: const Color.fromARGB(255, 8, 66, 114),
                 child: Padding(
-                 padding: EdgeInsets.only(top:  size.height * 0.07),
-                  child: Text(
-                    textAlign: TextAlign.center,
-                    'Quick Action', style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold),)),
+                    padding: EdgeInsets.only(top: size.height * 0.07),
+                    child: Text(
+                      textAlign: TextAlign.center,
+                      'Quick Action',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold),
+                    )),
               ),
               // Red container below
               Container(
-                height: size.height * 0.67,
+                height: size.height * 0.625,
                 color: Colors.white,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(32.0, 46.0, 32.0, 0),
-                  child: Column(children: [
-                 QuickActionItem(
-                      icon: Icons.local_hospital,
-                      title: 'Health Professionals',
-                      onTap: () {
-                        // Navigate to Health Professionals screen or functionality
-                      },
+                  padding: const EdgeInsets.fromLTRB(20.0, 30.0, 22.0, 0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        QuickActionItem(
+                          icon: Icons.local_hospital,
+                          title: 'Health Professionals',
+                          onTap: () {
+                            // Navigate to Health Professionals screen or functionality
+                          },
+                        ),
+                        QuickActionItem(
+                          icon: Icons.psychology,
+                          title: 'Counsellors',
+                          onTap: () {
+                            // Navigate to Counsellors screen or functionality
+                          },
+                        ),
+                        QuickActionItem(
+                          icon: Icons.school,
+                          title: 'Academic Mentors',
+                          onTap: () {
+                            // Navigate to Academic Mentors screen or functionality
+                          },
+                        ),
+                        QuickActionItem(
+                          icon: Icons.admin_panel_settings,
+                          title: 'Administrators',
+                          onTap: () {
+                            // Navigate to Administrators screen or functionality
+                          },
+                        ),
+                      ],
                     ),
-                    QuickActionItem(
-                      icon: Icons.psychology,
-                      title: 'Counsellors',
-                      onTap: () {
-                        // Navigate to Counsellors screen or functionality
-                      },
-                    ),
-                    QuickActionItem(
-                      icon: Icons.school,
-                      title: 'Academic Mentors',
-                      onTap: () {
-                        // Navigate to Academic Mentors screen or functionality
-                      },
-                    ),
-                    QuickActionItem(
-                      icon: Icons.admin_panel_settings,
-                      title: 'Administrators',
-                      onTap: () {
-                        // Navigate to Administrators screen or functionality
-                      },
-                    ),
-                  ],),
+                  ),
                 ),
               ),
             ],
           ),
           // Positioned container with 'Registered Professionals' text
           Positioned(
-            top: size.height * 0.16,  
-            left: 16,  
-            right: 16,  
+            top: size.height * 0.16,
+            left: 16,
+            right: 16,
             child: Container(
               height: 80,
               decoration: BoxDecoration(
@@ -78,7 +85,8 @@ class QuickActionPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color.fromARGB(255, 79, 79, 79).withOpacity(0.2),
+                    color:
+                        const Color.fromARGB(255, 79, 79, 79).withOpacity(0.2),
                     spreadRadius: 3,
                     blurRadius: 5,
                     offset: Offset(1.5, 1.5),
@@ -90,7 +98,7 @@ class QuickActionPage extends StatelessWidget {
                   'Registered Professionals',
                   style: TextStyle(
                     color: const Color.fromARGB(255, 8, 66, 114),
-                    fontSize: 28,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -108,7 +116,8 @@ class QuickActionItem extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
 
-QuickActionItem({required this.icon, required this.title, required this.onTap});
+  QuickActionItem(
+      {required this.icon, required this.title, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +129,6 @@ QuickActionItem({required this.icon, required this.title, required this.onTap});
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
-          
         ),
         child: Row(
           children: [

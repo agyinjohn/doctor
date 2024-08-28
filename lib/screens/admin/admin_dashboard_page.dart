@@ -55,7 +55,7 @@ class _DashboardPageState extends State<AdminDashboardPage> {
       'icon': Icon(IconlyBroken.paper),
       'icon_active': Icon(IconlyBold.paper),
       'label': 'Resources',
-      'fragment':  ResourcesPage(),
+      'fragment': ProfileFragment(),
     },
 
     // {

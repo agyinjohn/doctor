@@ -1,151 +1,222 @@
-// import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:doctor/screens/dashboard_fragments/home_thread/chatbot_screen.dart';
+import 'package:doctor/screens/login.dart';
 
-// class ResourcesPage extends StatelessWidget {
-//   const ResourcesPage({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Scaffold(
-//       body: Center(child: Text('Resources Screen'),),
-//     );
-//   }
-// }
-
-
+import 'package:doctor/widgets/custom_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class ResourcesPage extends StatelessWidget {
+import '../../utils/authmethods.dart';
+
+class ProfileFragment extends StatefulWidget {
+  const ProfileFragment({super.key});
+
+  @override
+  State<ProfileFragment> createState() => _ProfileFragmentState();
+}
+
+class _ProfileFragmentState extends State<ProfileFragment> {
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  FirebaseAuth auth = FirebaseAuth.instance;
+  Authentication authentication = Authentication();
+  Map<String, dynamic> userDetails = {};
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    getUserDetails();
+  }
+
+  getUserDetails() async {
+    try {
+      DocumentSnapshot doc = await firebaseFirestore
+          .collection('users')
+          .doc(auth.currentUser!.uid)
+          .get();
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      print(data);
+      setState(() {
+        userDetails = data;
+        isLoading = false;
+      });
+      print(userDetails);
+    } catch (e) {
+      print('Error fetching user details: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'George Annor',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
+      appBar: AppBar(),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : ListView(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24,
+                vertical: 0,
+              ),
+              children: [
+                  const Gap(8),
+                  Text(
+                    'Profile',
+                    style: GoogleFonts.poppins().copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: const Color(0xff0D1B34),
+                      height: 1,
+                    ),
+                  ),
+                  const Gap(20),
+                  Container(
+                    height: 138,
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: const Color(0xff4894FE),
+                    ),
+                    child: Column(
+                      children: [
+                        ClipOval(
+                          child: Image.asset(
+                            'assets/images/imran.png',
+                            width: 48,
+                            height: 48,
+                          ),
+                        ),
+                        const Gap(14),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            userDetails.isEmpty
+                                ? Container()
+                                : Text(
+                                    userDetails['name'] ?? '',
+                                    style: GoogleFonts.poppins().copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      color: const Color(0xffFFFFFF),
+                                      height: 1,
+                                    ),
+                                  ),
+                            const Gap(2),
+                            Text(
+                              userDetails['email'] ?? '',
+                              style: GoogleFonts.poppins().copyWith(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                color: const Color(0xffCBE1FF),
+                                height: 1,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Gap(16),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Text(
+                      'ACCOUNT',
+                      style: GoogleFonts.poppins().copyWith(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14,
+                        color: const Color(0xff0D1B34),
+                        height: 1,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: const BoxDecoration(
+                      color: Color(0xffFAFAFA),
+                    ),
+                    child: Column(children: [
+                      buildCard('assets/images/edit_personal_details.png',
+                          'Edit personal details'),
+                      const Gap(8),
+                      buildCard(
+                          'assets/images/my_communities.png', 'My Communities'),
+                      const Gap(8),
+                      buildCard(
+                          'assets/images/notifications.png', 'Notifications'),
+                    ]),
+                  ),
+                  const Gap(12),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Text(
+                      'OTHERS',
+                      style: GoogleFonts.poppins().copyWith(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14,
+                        color: const Color(0xff0D1B34),
+                        height: 1,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: const BoxDecoration(
+                      color: Color(0xffFAFAFA),
+                    ),
+                    child: Column(children: [
+                      GestureDetector(
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChatbotScreen())),
+                          child: buildCard(
+                              'assets/images/faq.png', 'FAQ & Support')),
+                      const Gap(8),
+                      buildCard(
+                          'assets/images/privacy_policy.png', 'Privacy Policy'),
+                      const Gap(8),
+                      buildCard('assets/images/about.png', 'About'),
+                    ]),
+                  ),
+                  CustomButton(
+                    text: 'Logout',
+                    onPressed: () {
+                      authentication.signOut();
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                        (Route<dynamic> route) => false,
+                      );
+                    },
+                  ),
+                ]),
+    );
+  }
+
+  Widget buildCard(String imageURL, String title) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          height: 36,
+          width: 36,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: Colors.white,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: Image.asset(imageURL, fit: BoxFit.contain),
           ),
         ),
-        backgroundColor: Colors.grey[300], 
-        elevation: 0,
-        centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          Container(
-            color: Colors.teal,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    'Chat',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    'Favorites',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    'Missed',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                return MessageTile();
-              },
-            ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.black,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-      ),
+        const Gap(14),
+        Text(title),
+      ],
     );
   }
 }
-
-class MessageTile extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 30,
-            backgroundImage: NetworkImage(
-                'https://example.com/profile-picture.jpg'), 
-          ),
-          SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Abena Emmanuella',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  "How're you doing",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey,
-                  ),
-                ),
-                Divider(
-                  color: Colors.black,
-                ),
-              ],
-            ),
-          ),
-          IconButton(
-            icon: Icon(Icons.play_circle_fill),
-            color: Colors.teal,
-            iconSize: 30,
-            onPressed: () {
-              // Action for play button
-            },
-          ),
-        ],
-      ),
-    );
-  }
-}
-

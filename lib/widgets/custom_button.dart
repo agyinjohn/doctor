@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatefulWidget {
-  const CustomButton({required this.text, this.onPressed, super.key});
+  const CustomButton({required String this.text, this.onPressed, super.key});
   final String text;
   final void Function()? onPressed;
   @override

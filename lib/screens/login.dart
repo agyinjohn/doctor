@@ -39,8 +39,14 @@ class _LoginScreenState extends State<LoginScreen> {
           showSnackBar(
               context: context,
               txt: "Something went wrong check and try again");
+          setState(() {
+            isLoading = false;
+          });
         }
       } else {
+        setState(() {
+          isLoading = false;
+        });
         showSnackBar(context: context, txt: "Fill the fields");
         return;
       }

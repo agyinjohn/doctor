@@ -98,7 +98,7 @@ class Authentication {
     return result;
   }
 
-  signOut() {
-    _auth.signOut();
+  signOut() async {
+    await _auth.signOut();
   }
 }

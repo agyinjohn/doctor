@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AdminHomePage extends StatelessWidget {
   const AdminHomePage({super.key});
@@ -13,77 +15,253 @@ class AdminHomePage extends StatelessWidget {
 
     return SafeArea(
       child: Padding(
-        padding: EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 35),
-            Text(
-              'John Agyin',
-              style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold),
-            ),
-            Text(
-              'Administrator',
-              style: TextStyle(
-                fontSize: 12,
+        padding: const EdgeInsets.all(12.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 35),
+              Text(
+                'John Agyin',
+                style: TextStyle(
+                    color: Color.fromARGB(255, 37, 37, 37),
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold),
               ),
-            ),
+              Text(
+                'Administrator',
+                style: TextStyle(
+                  fontSize: 12,
+                ),
+              ),
 
-            //Search bar
-            SizedBox(height: size.height * 0.034),
-            SizedBox(
-              height: 55,
-              child: TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(5),
-                  prefixIcon: Icon(IconlyLight.search),
-                  hintText: 'Search',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
+              //Search bar
+              SizedBox(height: size.height * 0.02),
+              SizedBox(
+                height: 55,
+                child: TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(5),
+                    prefixIcon: Icon(IconlyLight.search),
+                    hintText: 'Search',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[100],
                   ),
-                  filled: true,
-                  fillColor: Colors.grey[100],
+                  // maxLines: 1,
                 ),
-                // maxLines: 1,
               ),
-            ),
-            SizedBox(height: size.height * 0.034),
-            Container(
-              height: 125,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xff4894FE), width: 2.6),
-                  borderRadius: BorderRadius.circular(14)),
-              child: Padding(
-                padding: const EdgeInsets.all(14.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Manage\nProfessionals',
-                      style: TextStyle(
-                          color: Color(0xff4894FE),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'and administrators with ease',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color(0xff4894FE),
+              SizedBox(height: size.height * 0.01),
+              Container(
+                height: 110,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xff4894FE), width: 2.6),
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(14)),
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Manage\nProfessionals',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold),
                       ),
-                    ),
-                  ],
+                      Text(
+                        'and administrators with ease',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            )
-          ],
+              SizedBox(height: size.height * 0.01),
+              _buildNearDoctor(),
+            ],
+          ),
         ),
       ),
     );
   }
+}
+
+Widget _buildNearDoctor() {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        "Administrators",
+        style: GoogleFonts.poppins().copyWith(
+          fontWeight: FontWeight.w600,
+          fontSize: 14,
+          color: const Color(0xff0D1B34),
+          // height: 0,
+        ),
+      ),
+      const Gap(6),
+      ListView.builder(
+        itemCount: 2,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        padding: const EdgeInsets.all(0),
+        itemBuilder: (context, index) {
+          String image = 'assets/images/joseph.png';
+          String name = 'Mr. Banson Eyram';
+          String specialist = 'Administrator';
+          // String range = '1.2 KM';
+          double rate = 4.8;
+          int review = 120;
+          String open = '17.00';
+          return Container(
+            margin: const EdgeInsets.only(bottom: 12),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 10,
+              vertical: 16,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 20,
+                  offset: const Offset(2, 12),
+                  color: const Color(0xff5A75A7).withOpacity(0.1),
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    ClipOval(
+                      child: Image.asset(
+                        image,
+                        width: 48,
+                        height: 48,
+                      ),
+                    ),
+                    const Gap(10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            name,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.poppins().copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              color: const Color(0xff0D1B34),
+                              height: 1,
+                            ),
+                          ),
+                          const Gap(8),
+                          Text(
+                            specialist,
+                            style: GoogleFonts.poppins().copyWith(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 11,
+                              color: const Color(0xff8696BB),
+                              height: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Image.asset(
+                          'assets/images/ic_location.png',
+                          width: 10,
+                          height: 10,
+                        ),
+                        const Gap(8),
+                        // Text(
+                        //   range,
+                        //   style: GoogleFonts.poppins().copyWith(
+                        //     fontWeight: FontWeight.normal,
+                        //     fontSize: 14,
+                        //     color: const Color(0xff8696BB),
+                        //     height: 1,
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                  ],
+                ),
+                const Gap(20),
+                const Divider(
+                  color: Color(0xffF5F5F5),
+                  height: 1,
+                  thickness: 1,
+                ),
+                const Gap(20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          const ImageIcon(
+                            AssetImage(
+                              'assets/images/ic_clock.png',
+                            ),
+                            size: 20,
+                            color: Color(0xffFEB052),
+                          ),
+                          const Gap(8),
+                          Text(
+                            '$rate ($review Reviews)',
+                            style: GoogleFonts.poppins().copyWith(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 12,
+                              color: const Color(0xffFEB052),
+                              height: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          const ImageIcon(
+                            AssetImage(
+                              'assets/images/ic_clock.png',
+                            ),
+                            size: 20,
+                            color: Color(0xff4894FE),
+                          ),
+                          const Gap(8),
+                          Text(
+                            'Open at $open',
+                            style: GoogleFonts.poppins().copyWith(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 12,
+                              color: const Color(0xff4894FE),
+                              height: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    ],
+  );
 }

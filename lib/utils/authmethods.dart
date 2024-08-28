@@ -36,6 +36,8 @@ class Authentication {
 
       if (credential.user != null) {
         UserModel user = UserModel(
+          role: Role.user,
+          speciality: '',
           profileUrl: '',
           email: email,
           // badgeNumber: badgeNumber,

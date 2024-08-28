@@ -1,5 +1,10 @@
+import 'dart:ui';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
+
+import '../../app_Colors.dart';
 
 class StatisticsPage extends StatelessWidget {
   const StatisticsPage({super.key});
@@ -7,9 +12,14 @@ class StatisticsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final Color doctorColor = const Color(0xFF0A5D32), // Dark green
-        mentorColor = const Color(0xFF0A3E77), // Dark blue
-        counsellorColor = const Color(0xFF4B0082); // Dark purple
+    // final Color doctorColor = Color(0xff4385f6), // Dark green
+    //     doctor_btn_color = Color.fromARGB(255, 1, 50, 135),
+    //     mentorColor = Color(0xff32a94f), // Dark blue
+    //     mentor_btn_color = Color.fromARGB(255, 0, 89, 22),
+    //     counsellorColor = const Color(0xffd41d10), // Dark purple
+    //     counsellor_btn_color = Color.fromARGB(255, 119, 9, 1),
+    //     adminColors = Color(0xfffcbb07), // Dark purple
+    //     admin_btn_colors = Color.fromARGB(255, 144, 106, 1); // Dark purple
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Column(
@@ -21,7 +31,7 @@ class StatisticsPage extends StatelessWidget {
                 Text(
                   'Statistics',
                   style: TextStyle(
-                      color: Colors.blue,
+                      color: Color.fromARGB(255, 37, 37, 37),
                       fontSize: 22,
                       fontWeight: FontWeight.bold),
                 ),
@@ -31,12 +41,17 @@ class StatisticsPage extends StatelessWidget {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
-                      _buildCard(context, 'Total\nDoctors', doctorColor, 47),
+                      _buildCard(context, 'Total\nDoctors', doctorColor, 47,
+                          doctorBtnColor),
                       SizedBox(width: 6),
-                      _buildCard(context, 'Total\nMentors', mentorColor, 24),
+                      _buildCard(context, 'Total\nMentors', mentorColor, 24,
+                          mentorBtnColor),
                       SizedBox(width: 6),
-                      _buildCard(
-                          context, 'Total\nCounsellors', counsellorColor, 38),
+                      _buildCard(context, 'Total\nCounsellors', counsellorColor,
+                          38, counsellorBtnColor),
+                      SizedBox(width: 6),
+                      _buildCard(context, 'Total\nAdministrators', adminColors,
+                          5, adminBtnColors)
                     ],
                   ),
                 ),
@@ -59,6 +74,8 @@ class StatisticsPage extends StatelessWidget {
                               CircleAvatar(
                                 radius: 25,
                                 backgroundColor: doctorColor,
+                                child:
+                                    Icon(Icons.person_2, color: Colors.white),
                               ),
                               Text(
                                 'Doctors',
@@ -72,6 +89,8 @@ class StatisticsPage extends StatelessWidget {
                               CircleAvatar(
                                 radius: 25,
                                 backgroundColor: mentorColor,
+                                child: Icon(IconlyBroken.profile,
+                                    color: Colors.white),
                               ),
                               Text(
                                 'Mentors',
@@ -85,9 +104,26 @@ class StatisticsPage extends StatelessWidget {
                               CircleAvatar(
                                 radius: 25,
                                 backgroundColor: counsellorColor,
+                                child: Icon(IconlyBroken.user3,
+                                    color: Colors.white),
                               ),
                               Text(
                                 'Counsellors',
+                                style: TextStyle(fontSize: 10),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CircleAvatar(
+                                radius: 25,
+                                backgroundColor: adminColors,
+                                child: Icon(IconlyBroken.user2,
+                                    color: Colors.white),
+                              ),
+                              Text(
+                                'Adminstrators',
                                 style: TextStyle(fontSize: 10),
                               ),
                             ],
@@ -101,8 +137,8 @@ class StatisticsPage extends StatelessWidget {
                 Container(
                   height:
                       size.height * 0.22, // Adjust the height of the bar graph
-                  child:
-                      _buildBarGraph(doctorColor, mentorColor, counsellorColor),
+                  child: _buildBarGraph(
+                      doctorColor, mentorColor, counsellorColor, adminColors),
                 ),
               ],
             ),
@@ -112,8 +148,8 @@ class StatisticsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildCard(
-      BuildContext context, String title, Color color, int number) {
+  Widget _buildCard(BuildContext context, String title, Color color, int number,
+      Color btn_color) {
     return Container(
       width: 160,
       decoration: BoxDecoration(
@@ -142,7 +178,7 @@ class StatisticsPage extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            SizedBox(height: 4),
+            SizedBox(height: 0),
             Center(
               child: Text(
                 'registered',
@@ -154,8 +190,9 @@ class StatisticsPage extends StatelessWidget {
             Center(
               child: Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: Colors.purple),
+                  borderRadius: BorderRadius.circular(16),
+                  color: btn_color,
+                ),
                 height: 22,
                 width: 100,
                 child: Center(
@@ -172,8 +209,8 @@ class StatisticsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildBarGraph(
-      Color doctorColor, Color mentorColor, Color counsellorColor) {
+  Widget _buildBarGraph(Color doctorColor, Color mentorColor,
+      Color counsellorColor, Color adminColor) {
     return BarChart(
       BarChartData(
         alignment: BarChartAlignment.spaceAround,
@@ -187,7 +224,7 @@ class StatisticsPage extends StatelessWidget {
               getTitlesWidget: (double value, TitleMeta meta) {
                 const style = TextStyle(
                   color: Colors.black,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                   fontSize: 14,
                 );
                 switch (value.toInt()) {
@@ -197,6 +234,8 @@ class StatisticsPage extends StatelessWidget {
                     return Text('Men.', style: style);
                   case 2:
                     return Text('Coun.', style: style);
+                  case 3:
+                    return Text('Admin.', style: style);
 
                   default:
                     return Text('', style: style);
@@ -232,6 +271,13 @@ class StatisticsPage extends StatelessWidget {
             BarChartRodData(
               toY: 38, // Value for Counsellors
               color: counsellorColor,
+              width: 22,
+            ),
+          ]),
+          BarChartGroupData(x: 3, barRods: [
+            BarChartRodData(
+              toY: 5, // Value for Counsellors
+              color: adminColor,
               width: 22,
             ),
           ]),

@@ -69,6 +69,7 @@ class _DashboardPageState extends State<AdminDashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Color.fromARGB(255, 235, 237, 235),
       body: SafeArea(child: menu[index]['fragment'] as Widget),
       bottomNavigationBar: Container(

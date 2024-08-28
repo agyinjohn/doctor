@@ -39,6 +39,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           showSnackBar(
               context: context,
               txt: 'Successful sign up \n login with the same credentials');
+              Navigator.push(context, MaterialPageRoute(builder:(context) => LoginScreen(),));
+              nameController.clear();
+              emailController.clear();
+              passwordController.clear();
+              confirmPasswordController.clear();
         }
         setState(() {
           isLoading = false;

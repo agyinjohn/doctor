@@ -11,7 +11,6 @@ import 'package:doctor/widgets/custom_textfield.dart';
 import 'package:doctor/widgets/signup_option_card.dart';
 import 'package:doctor/widgets/snaackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -27,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Authentication authentication = Authentication();
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
-  Map<String,dynamic>  userDetails = {};
+  Map<String, dynamic> userDetails = {};
   bool isLoading = false;
   void login() async {
     try {
@@ -41,41 +40,37 @@ class _LoginScreenState extends State<LoginScreen> {
             emailController.text.trim(),
             context);
         if (res) {
-       DocumentSnapshot doc =  await  firebaseFirestore.collection('users').doc(auth.currentUser!.uid).get();
-         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-         UserModel userM = UserModel.fromMap(data);
-     
-           if(userM.role == 'admin'){
-               Navigator.pushNamedAndRemoveUntil(
-              context, AdminDashboardPage.routeName, (route) => false);
-           }if(userM.role == 'user'){
-               Navigator.pushNamedAndRemoveUntil(
-              context, DashboardPage.routeName, (route) => false);
-           }
-         
+          DocumentSnapshot doc = await firebaseFirestore
+              .collection('users')
+              .doc(auth.currentUser!.uid)
+              .get();
+          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+          UserModel userM = UserModel.fromMap(data);
+
+          if (userM.role == Role.admin) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, AdminDashboardPage.routeName, (route) => false);
+          }
+          if (userM.role == Role.user) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, DashboardPage.routeName, (route) => false);
+          }
+          print(userM.role);
         } else {
           showSnackBar(
               context: context,
               txt: "Something went wrong check and try again");
-          setState(() {
-            isLoading = false;
-          });
         }
       } else {
-        setState(() {
-          isLoading = false;
-        });
         showSnackBar(context: context, txt: "Fill the fields");
         return;
       }
-      setState(() {
-        isLoading = false;
-      });
     } catch (er) {
+      showSnackBar(context: context, txt: er.toString());
+    } finally {
       setState(() {
         isLoading = false;
       });
-      showSnackBar(context: context, txt: er.toString());
     }
   }
 

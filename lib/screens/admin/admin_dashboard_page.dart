@@ -10,11 +10,6 @@ import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'admin_home_page.dart';
 import 'resources_page.dart';
 
-// import 'dashboard_fragments/home_fragment.dart';
-// import 'dashboard_fragments/hub_fragment.dart';
-// import 'dashboard_fragments/therapy_fragment.dart';
-// import 'dashboard_fragments/profile_fragment.dart';
-
 class AdminDashboardPage extends StatefulWidget {
   const AdminDashboardPage({super.key});
   static const routeName = '/admin-dashboard';
@@ -57,13 +52,6 @@ class _DashboardPageState extends State<AdminDashboardPage> {
       'label': 'Resources',
       'fragment': ProfileFragment(),
     },
-
-    // {
-    //   'icon': 'assets/images/ic_profile.png',
-    //   'icon_active': 'assets/images/ic_profile.png',
-    //   'label': 'Profile',
-    //   'fragment': const ProfileFragment(),
-    // },
   ];
 
   @override

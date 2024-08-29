@@ -1,12 +1,17 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:doctor/screens/admin/admin_dashboard_page.dart';
 import 'package:doctor/screens/dashboard_page.dart';
 import 'package:doctor/screens/sign_up.dart';
 import 'package:doctor/utils/authmethods.dart';
+import 'package:doctor/utils/models/usermodel.dart';
 import 'package:doctor/widgets/custom_button.dart';
 import 'package:doctor/widgets/custom_textfield.dart';
 import 'package:doctor/widgets/signup_option_card.dart';
 import 'package:doctor/widgets/snaackbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -20,6 +25,9 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   Authentication authentication = Authentication();
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  FirebaseAuth auth = FirebaseAuth.instance;
+  Map<String,dynamic>  userDetails = {};
   bool isLoading = false;
   void login() async {
     try {
@@ -33,8 +41,18 @@ class _LoginScreenState extends State<LoginScreen> {
             emailController.text.trim(),
             context);
         if (res) {
-          Navigator.pushNamedAndRemoveUntil(
+       DocumentSnapshot doc =  await  firebaseFirestore.collection('users').doc(auth.currentUser!.uid).get();
+         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+         UserModel userM = UserModel.fromMap(data);
+     
+           if(userM.role == 'admin'){
+               Navigator.pushNamedAndRemoveUntil(
+              context, AdminDashboardPage.routeName, (route) => false);
+           }if(userM.role == 'user'){
+               Navigator.pushNamedAndRemoveUntil(
               context, DashboardPage.routeName, (route) => false);
+           }
+         
         } else {
           showSnackBar(
               context: context,

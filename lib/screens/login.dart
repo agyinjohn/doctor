@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctor/screens/admin/admin_dashboard_page.dart';
 import 'package:doctor/screens/dashboard_page.dart';
+import 'package:doctor/screens/dotor_view.dart/home_view.dart';
 import 'package:doctor/screens/sign_up.dart';
 import 'package:doctor/utils/authmethods.dart';
 import 'package:doctor/utils/models/usermodel.dart';
@@ -54,6 +55,10 @@ class _LoginScreenState extends State<LoginScreen> {
           if (userM.role == Role.user) {
             Navigator.pushNamedAndRemoveUntil(
                 context, DashboardPage.routeName, (route) => false);
+          }
+          if (userM.role == Role.healthpersonel) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, DoctorHomePage.routeName, (route) => false);
           }
           print(userM.role);
         } else {

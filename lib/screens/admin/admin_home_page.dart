@@ -118,8 +118,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 height: 110,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                    border: Border.all(color: Color(0xff4894FE), width: 2.6),
-                    color: Colors.blue,
+                    border: Border.all(
+                        color: Color.fromARGB(255, 205, 9, 9), width: 2.6),
+                    color: Color.fromARGB(255, 214, 12, 12),
                     borderRadius: BorderRadius.circular(14)),
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),

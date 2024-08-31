@@ -50,32 +50,33 @@ dependencies:
   flutter_iconly: ^1.0.2
   fl_chart: ^0.68.0
   emailjs: ^4.0.0
+  flutter_native_splash: ^2.4.1
   # flutter_launcher_icons: ^0.13.1
   # jitsi_meet: ^4.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  
+
   flutter_launcher_icons: "^0.13.1"
 
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/safespace.jpg"
+  image_path: "assets/images/safe.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
   web:
     generate: true
-    image_path: "assets/images/safespace.jpg"
+    image_path: "assets/images/safe.png"
     background_color: "#ff0000"
     theme_color: "#ff0000"
   windows:
     generate: true
-    image_path: "assets/images/safespace.jpg"
+    image_path: "assets/images/safe.png"
     icon_size: 48 # min:48, max:256, default: 48
   macos:
     generate: true
-    image_path: "assets/images/safespace.jpg"
+    image_path: "assets/images/safe.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -124,3 +125,24 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+# flutter_native_splash-development.yaml
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/images/splashscreen.jpg
+  branding: assets/images/splashscreen.jpg
+  color_dark: "#121212"
+  image_dark: assets/images/splashscreen.jpg
+  branding_dark: assets/images/splashscreen.jpg
+
+  # android_12:
+  #   image: assets/images/safe.png
+  #   icon_background_color: "#133161"
+  #   image_dark: assets/images/safe.png
+
+  web: false
+# flutter_native_splash:
+#   color: "#42a5f5" # Splash screen background color
+#   image: assets/images/splashscreen.jpg # Path to your image
+#   android: true
+#   ios: true

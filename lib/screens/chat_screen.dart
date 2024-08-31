@@ -27,7 +27,7 @@ class ChatScreenState extends State<ChatScreen> {
   }
 
   Future<void> sendMessage(String text) async {
-    String chatId = generateChatId(userDetails['uid'], widget.doctor.name);
+    String chatId = generateChatId(userDetails['uid'], widget.doctor.id);
     // var random = Random();
     // String chatId = (random.nextInt(10000000) + 10000000).toString();
     final messageRef = FirebaseFirestore.instance
@@ -75,7 +75,7 @@ class ChatScreenState extends State<ChatScreen> {
         isLoading = false;
       });
       print(userDetails);
-      chatId = generateChatId(userDetails['uid'], widget.doctor.name);
+      chatId = generateChatId(userDetails['uid'], widget.doctor.id);
       print(userDetails['uid']);
     } catch (e) {
       print('Error fetching user details: $e');

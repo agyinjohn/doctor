@@ -36,10 +36,10 @@ class _TherapyFragmentState extends State<HubFragment> {
 
 Widget _buildPageHeading() {
   return const Text(
-    'Got something on your mind?',
+    'Got something \non your mind?',
     style: TextStyle(
       color: Colors.blue,
-      fontSize: 42,
+      fontSize: 38,
       fontWeight: FontWeight.bold,
       // letterSpacing: -2,
     ),
@@ -48,7 +48,10 @@ Widget _buildPageHeading() {
 
 Widget _buildIllustration() {
   return Center(
-    child: Image.asset('assets/images/hub_page.jpg'),
+    child: Image.asset(
+      'assets/images/discussion.png',
+      height: 437,
+    ),
   );
 }
 

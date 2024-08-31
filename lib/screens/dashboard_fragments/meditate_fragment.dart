@@ -39,7 +39,7 @@ class _MeditateFragmentState extends State<MeditateFragment> {
 
   Widget _buildPageHeading() {
     return const Text(
-      'Unlock your emotions by writing',
+      'Unlock your \nemotions by writing',
       style: TextStyle(
         color: Colors.blue,
         fontSize: 38,
@@ -49,13 +49,15 @@ class _MeditateFragmentState extends State<MeditateFragment> {
   }
 
   Widget _buildIllustration(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width * 0.7;
+    double screenWidth = MediaQuery.of(context).size.width * 1.15;
 
     return Center(
         child: SizedBox(
             height: screenWidth,
             width: screenWidth,
-            child: Image.asset('assets/images/meditate.jpg')));
+            child: Image.asset(
+              'assets/images/take_notes.png',
+            )));
   }
 
   Widget _buildButton(BuildContext context) {

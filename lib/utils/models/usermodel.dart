@@ -3,7 +3,7 @@ import 'dart:convert';
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 // Define the Role enum
-enum Role { admin, user, doctor, mentor, counsellor }
+enum Role { admin, user, healthpersonel }
 
 class UserModel {
   final String name;

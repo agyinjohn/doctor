@@ -10,6 +10,7 @@ import '../../../utils/data/doctors_list.dart';
 
 import 'package:doctor/widgets/custom_searchbar.dart';
 
+import '../../../utils/data/get_professionals.dart';
 import '../../../utils/models/doctor_model.dart';
 import '../../../widgets/counselling_professionals_card.dart';
 import '../../chat_screen.dart';
@@ -27,11 +28,22 @@ class _ConnectToTherapistPageState extends State<ConnectToTherapistPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
   Map<String, dynamic> userDetails = {};
   bool isLoading = true;
-
+  late List<Map<String, dynamic>> specialUsers;
   @override
   void initState() {
     super.initState();
     getUserDetails();
+    getSpecialUsers();
+  }
+
+  void getSpecialUsers() async {
+    UserRepository userRepository = UserRepository();
+
+    specialUsers = await userRepository.fetchSpecialtyUsers();
+    setState(() {});
+    specialUsers.forEach((user) {
+      print('User: ${user['name']}, Specialty: ${user['speciality']}');
+    });
   }
 
   getUserDetails() async {
@@ -148,6 +160,35 @@ class _ConnectToTherapistPageState extends State<ConnectToTherapistPage> {
                           ),
                         )
                       ],
+                    ),
+                    SizedBox(
+                      height: 150,
+                      child: ListView.builder(
+                        itemBuilder: (context, index) => GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChatScreen(
+                                    doctor: DoctorModel(
+                                        name: specialUsers[index]['name'],
+                                        id: specialUsers[index]['uid'],
+                                        specialty: specialUsers[index]
+                                            ['speciality'],
+                                        imageUrl:
+                                            'assets/images/counselor_1.jpeg')),
+                              ),
+                            );
+                          },
+                          child: CounsellingProfessionalsCard(
+                              doctor: DoctorModel(
+                                  name: specialUsers[index]['name'],
+                                  id: specialUsers[index]['uid'],
+                                  specialty: specialUsers[index]['speciality'],
+                                  imageUrl: 'assets/images/counselor_1.jpeg')),
+                        ),
+                        itemCount: 4,
+                      ),
                     ),
                     Expanded(
                       child:

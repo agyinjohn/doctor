@@ -1,29 +1,33 @@
 import 'package:doctor/firebase_options.dart';
 import 'package:doctor/route.dart';
 import 'package:doctor/screens/admin/admin_dashboard_page.dart';
+import 'package:doctor/screens/dotor_view.dart/home_view.dart';
 import 'package:doctor/screens/login.dart';
 import 'package:doctor/screens/dashboard_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
+  FlutterNativeSplash.remove();
 }
 
-class MyApp extends  StatefulWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
-   State<MyApp> createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends  State<MyApp> {
+class _MyAppState extends State<MyApp> {
   FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
@@ -63,9 +67,14 @@ class _MyAppState extends  State<MyApp> {
                 // Get the user role
                 final role = roleSnapshot.data!.get('role');
                 if (role == 'admin') {
+                  print(role);
                   return const AdminDashboardPage();
-                } else {
+                } else if (role == 'user') {
+                  print(role);
                   return const DashboardPage();
+                } else {
+                  print(role);
+                  return DoctorHomePage();
                 }
               },
             );
@@ -78,4 +87,3 @@ class _MyAppState extends  State<MyApp> {
     );
   }
 }
- 

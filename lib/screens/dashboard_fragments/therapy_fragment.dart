@@ -24,6 +24,7 @@ class _TherapyFragmentState extends State<TherapyFragment> {
             _buildPageHeading(),
             const Gap(12),
             _buildIllustration(),
+            const Gap(20),
             _buildButton(context),
           ],
         ),
@@ -34,10 +35,10 @@ class _TherapyFragmentState extends State<TherapyFragment> {
 
 Widget _buildPageHeading() {
   return const Text(
-    'Get help from professionals',
+    'Get help \nfrom professionals',
     style: TextStyle(
       color: Colors.blue,
-      fontSize: 42,
+      fontSize: 38,
       fontWeight: FontWeight.bold,
       // letterSpacing: -2,
     ),
@@ -45,7 +46,11 @@ Widget _buildPageHeading() {
 }
 
 Widget _buildIllustration() {
-  return Center(child: Image.asset('assets/images/therapy.jpg'));
+  return Center(
+      child: Image.asset(
+    'assets/images/doctors.png',
+    height: 470.0,
+  ));
 }
 
 Widget _buildButton(BuildContext context) {

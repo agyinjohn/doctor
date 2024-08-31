@@ -80,7 +80,7 @@ class _ProfileFragmentState extends State<ProfileFragment> {
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color: const Color(0xff4894FE),
+                      color: Color.fromARGB(255, 71, 130, 249),
                     ),
                     child: Column(
                       children: [

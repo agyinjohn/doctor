@@ -50,19 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCjGTfYD4nrOGA2fRVVEjkwQ1hHHe1WK5E',
-    appId: '1:226465480767:web:6a4988302aecd86a17788a',
-    messagingSenderId: '226465480767',
-    projectId: 'doctor-fe681',
-    authDomain: 'doctor-fe681.firebaseapp.com',
-    storageBucket: 'doctor-fe681.appspot.com',
+    apiKey: 'AIzaSyCWHPfSpHbREMo7zkc2h8MRU3B5_7IbHac',
+    appId: '1:512256378738:web:061bfecf6051e9052b7feb',
+    messagingSenderId: '512256378738',
+    projectId: 'safespace-40dac',
+    authDomain: 'safespace-40dac.firebaseapp.com',
+    storageBucket: 'safespace-40dac.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyALd1eJQs9LHaB7ZpgaG5NlYd9ln2796S0',
-    appId: '1:226465480767:android:1d81de7cd8d6d36817788a',
-    messagingSenderId: '226465480767',
-    projectId: 'doctor-fe681',
-    storageBucket: 'doctor-fe681.appspot.com',
+    apiKey: 'AIzaSyAZ5ZCHWbWnAz7XQP2bhVRO_Xyv0tAAFdU',
+    appId: '1:512256378738:android:c3f79071ebfcee1a2b7feb',
+    messagingSenderId: '512256378738',
+    projectId: 'safespace-40dac',
+    storageBucket: 'safespace-40dac.appspot.com',
   );
+
 }

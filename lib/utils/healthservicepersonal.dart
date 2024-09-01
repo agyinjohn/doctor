@@ -45,7 +45,9 @@ class HealthProfessionalService {
       await _firestore.collection('users').doc(user.uid).set(user.toMap());
 
       // Send the password via EmailJS
-      await _sendPasswordEmail(user.email, password);
+      // await _sendPasswordEmail(user.email, password);
+      await _auth.sendPasswordResetEmail(email: user.email);
+      
     } catch (e) {
       // Handle errors (e.g., email already in use, network issues)
       print('Error adding health professional: $e');

@@ -34,7 +34,7 @@ class _DashboardPageState extends State<DoctorHomePage> {
       'icon': Icon(IconlyBroken.chat),
       'icon_active': Icon(IconlyBold.chat),
       'label': 'Chats',
-      'fragment': const ChatListPage(),
+      'fragment':  ChatOverviewScreen(),
     },
     {
       'icon': Icon(IconlyBroken.profile),

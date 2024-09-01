@@ -50,7 +50,7 @@ Widget _buildIllustration() {
   return Center(
     child: Image.asset(
       'assets/images/discussion.png',
-      height: 437,
+      height: 337,
     ),
   );
 }

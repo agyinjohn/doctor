@@ -28,24 +28,26 @@ class _ConnectToTherapistPageState extends State<ConnectToTherapistPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
   Map<String, dynamic> userDetails = {};
   bool isLoading = true;
-  late List<Map<String, dynamic>> specialUsers;
+  List<Map<String, dynamic>> specialUsers = [];
   @override
   void initState() {
     super.initState();
     getUserDetails();
-    getSpecialUsers();
   }
 
   void getSpecialUsers() async {
-    setState((){
+    setState(() {
       isLoading = true;
-         });
+    });
     UserRepository userRepository = UserRepository();
 
     specialUsers = await userRepository.fetchSpecialtyUsers();
+
     specialUsers.forEach((user) {
       print('User: ${user['name']}, Specialty: ${user['speciality']}');
-    setState(() {isLoading = false;});
+      setState(() {
+        isLoading = false;
+      });
     });
   }
 
@@ -56,6 +58,7 @@ class _ConnectToTherapistPageState extends State<ConnectToTherapistPage> {
           .doc(auth.currentUser!.uid)
           .get();
       Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      getSpecialUsers();
       print(data);
       setState(() {
         userDetails = data;

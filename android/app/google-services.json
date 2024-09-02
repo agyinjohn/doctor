@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "226465480767",
-    "project_id": "doctor-fe681",
-    "storage_bucket": "doctor-fe681.appspot.com"
+    "project_number": "512256378738",
+    "project_id": "safespace-40dac",
+    "storage_bucket": "safespace-40dac.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:226465480767:android:1d81de7cd8d6d36817788a",
+        "mobilesdk_app_id": "1:512256378738:android:c3f79071ebfcee1a2b7feb",
         "android_client_info": {
           "package_name": "com.example.doctor"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyALd1eJQs9LHaB7ZpgaG5NlYd9ln2796S0"
+          "current_key": "AIzaSyAZ5ZCHWbWnAz7XQP2bhVRO_Xyv0tAAFdU"
         }
       ],
       "services": {

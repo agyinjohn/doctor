@@ -38,7 +38,7 @@ Widget _buildPageHeading() {
     'Get help \nfrom professionals',
     style: TextStyle(
       color: Colors.blue,
-      fontSize: 38,
+      fontSize: 28,
       fontWeight: FontWeight.bold,
       // letterSpacing: -2,
     ),
@@ -49,7 +49,7 @@ Widget _buildIllustration() {
   return Center(
       child: Image.asset(
     'assets/images/doctors.png',
-    height: 470.0,
+    height: 350.0,
   ));
 }
 

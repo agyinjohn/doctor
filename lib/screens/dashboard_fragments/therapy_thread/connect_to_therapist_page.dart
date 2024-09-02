@@ -37,12 +37,15 @@ class _ConnectToTherapistPageState extends State<ConnectToTherapistPage> {
   }
 
   void getSpecialUsers() async {
+    setState((){
+      isLoading = true;
+         });
     UserRepository userRepository = UserRepository();
 
     specialUsers = await userRepository.fetchSpecialtyUsers();
-    setState(() {});
     specialUsers.forEach((user) {
       print('User: ${user['name']}, Specialty: ${user['speciality']}');
+    setState(() {isLoading = false;});
     });
   }
 
@@ -187,7 +190,7 @@ class _ConnectToTherapistPageState extends State<ConnectToTherapistPage> {
                                   specialty: specialUsers[index]['speciality'],
                                   imageUrl: 'assets/images/counselor_1.jpeg')),
                         ),
-                        itemCount: 4,
+                        itemCount: specialUsers.length,
                       ),
                     ),
                     Expanded(

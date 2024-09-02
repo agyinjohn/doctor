@@ -42,7 +42,7 @@ class _MeditateFragmentState extends State<MeditateFragment> {
       'Unlock your \nemotions by writing',
       style: TextStyle(
         color: Colors.blue,
-        fontSize: 38,
+        fontSize: 28,
         fontWeight: FontWeight.bold,
       ),
     );
@@ -52,12 +52,11 @@ class _MeditateFragmentState extends State<MeditateFragment> {
     double screenWidth = MediaQuery.of(context).size.width * 1.15;
 
     return Center(
-        child: SizedBox(
-            height: screenWidth,
-            width: screenWidth,
-            child: Image.asset(
+        child:
+             Image.asset(
               'assets/images/take_notes.png',
-            )));
+              height: 350,
+            ));
   }
 
   Widget _buildButton(BuildContext context) {

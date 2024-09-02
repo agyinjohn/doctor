@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
                   return const Center(child: Text('Error fetching user data'));
                 }
                 if (!roleSnapshot.hasData || !roleSnapshot.data!.exists) {
-                  return const Center(child: Text('User data not found'));
+                  return LoginScreen();
                 }
                 // Get the user role
                 final role = roleSnapshot.data!.get('role');

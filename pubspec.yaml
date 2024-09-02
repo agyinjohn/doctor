@@ -134,6 +134,8 @@ flutter_native_splash:
   color_dark: "#121212"
   image_dark: assets/images/splashscreen.jpg
   branding_dark: assets/images/splashscreen.jpg
+  fullscreen: true # Ensures the image takes the full screen.
+  fill_dark: true
 
   # android_12:
   #   image: assets/images/safe.png

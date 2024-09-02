@@ -25,6 +25,16 @@ class ChatScreenState extends State<ChatScreen> {
         ? '${userAId}_$userBId'
         : '${userBId}_$userAId';
   }
+   
+   Future<void> SendeToRecieverRoute({required String senderId, required String ChatId, required String message, required String name  })async{
+      await FirebaseFirestore.instance.collection('chats').doc(widget.doctor.id).collection('chat').doc(auth.currentUser!.uid).set({
+         'sender': senderId,
+         'chatId': chatId,
+          'lastMessage': message,
+          'sendername': name,
+          'timestamp': FieldValue.serverTimestamp(),
+      });
+   }
 
   Future<void> sendMessage(String text) async {
     String chatId = generateChatId(userDetails['uid'], widget.doctor.id);
@@ -36,6 +46,8 @@ class ChatScreenState extends State<ChatScreen> {
         .collection('messages')
         .doc();
 
+    await SendeToRecieverRoute(senderId: userDetails['uid'], ChatId: chatId, message: text, name: userDetails['name']);
+
     await messageRef.set({
       'messageId': messageRef.id,
       'senderId': userDetails['uid'],
@@ -44,10 +56,7 @@ class ChatScreenState extends State<ChatScreen> {
       'isRead': false,
     });
 
-    await FirebaseFirestore.instance.collection('chats').doc(chatId).update({
-      'lastMessage': text,
-      'timestamp': FieldValue.serverTimestamp(),
-    });
+   
   }
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -89,9 +98,9 @@ class ChatScreenState extends State<ChatScreen> {
   final List<Message> _messages = [];
   final JitsiMeet _jitsiMeetMethods = JitsiMeet();
 
-  createNewMeeting() async {
+  createNewMeeting() async { 
     var random = Random();
-    String roomName = (random.nextInt(10000000) + 10000000000000).toString();
+    String roomName = (random.nextInt(10000000) + 1000000).toString();
 
     var options = JitsiMeetConferenceOptions(
       room: roomName,
@@ -277,54 +286,7 @@ class ChatScreenState extends State<ChatScreen> {
               ],
             ),
 
-            // Stack(
-            //   children: [
-            //     Padding(
-            //       padding: const EdgeInsets.only(bottom: 70.0, top: 10),
-            //       child: ListView.builder(
-            //         itemCount: _messages.length,
-            //         itemBuilder: (context, index) {
-            //           final message = _messages[index];
-            //           final isUser = message.sender == MessageSender.user;
-
-            //           return Padding(
-            //             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            //             child: Row(
-            //               mainAxisAlignment: isUser
-            //                   ? MainAxisAlignment.end
-            //                   : MainAxisAlignment.start,
-            //               // crossAxisAlignment: CrossAxisAlignment.start,
-            //               children: [
-            //                 if (!isUser)
-            //                   CircleAvatar(
-            //                     backgroundImage:
-            //                         AssetImage(widget.doctor.imageUrl),
-            //                     radius: 20,
-            //                   ),
-            //                 if (!isUser) const Gap(8),
-            //                 Flexible(
-            //                   child: Container(
-            //                     padding: const EdgeInsets.symmetric(
-            //                         horizontal: 14, vertical: 10),
-            //                     margin: const EdgeInsets.symmetric(vertical: 5),
-            //                     decoration: BoxDecoration(
-            //                       color: isUser
-            //                           ? Colors.blue[100]
-            //                           : Colors.grey[300],
-            //                       borderRadius: BorderRadius.circular(10),
-            //                     ),
-            //                     child: Text(message.text),
-            //                   ),
-            //                 ),
-            //               ],
-            //             ),
-            //           );
-            //         },
-            //       ),
-            //     ),
-
-            //   ],
-            // ),
+           
           );
   }
 

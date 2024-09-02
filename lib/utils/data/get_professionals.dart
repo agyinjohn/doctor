@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
 class UserRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -13,7 +14,7 @@ class UserRepository {
       List<Map<String, dynamic>> users = snapshot.docs.map((doc) {
         return doc.data() as Map<String, dynamic>;
       }).where((user) {
-        return user['speciality'] != 'user' && user['speciality'] != 'admin';
+        return user['role'] == 'healthpersonel';
       }).toList();
 
       return users;

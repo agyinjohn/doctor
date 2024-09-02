@@ -15,6 +15,14 @@ class StatisticsPage extends StatelessWidget {
     return querySnapshot.size;
   }
 
+  Future<int> _getUserCountBySpecialty(String speciality) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('speciality', isEqualTo: speciality)
+        .get();
+    return querySnapshot.size;
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -37,9 +45,9 @@ class StatisticsPage extends StatelessWidget {
                 SizedBox(height: size.height * 0.046),
                 FutureBuilder(
                   future: Future.wait([
-                    _getUserCountByRole('doctor'),
-                    _getUserCountByRole('mentor'),
-                    _getUserCountByRole('counsellor'),
+                    _getUserCountBySpecialty('Doctor'),
+                    _getUserCountBySpecialty('Mentor'),
+                    _getUserCountBySpecialty('Counselor'),
                     _getUserCountByRole('admin')
                   ]),
                   builder: (context, snapshot) {

@@ -16,7 +16,7 @@ class _UserManagementPageState extends State<UserManagementPage> {
   String _searchTerm = '';
   bool _isLoading = false;
 
-  final List<String> categories = ['Doctor', 'Mentor', 'Counsellor', 'Admin'];
+  final List<String> categories = ['Doctor', 'Mentor', 'Counselor', 'Admin'];
 
   List<Map<String, dynamic>> _users = [];
 
@@ -33,8 +33,7 @@ class _UserManagementPageState extends State<UserManagementPage> {
 
     try {
       final List<Map<String, dynamic>> fetchedUsers =
-          await fetchUsersFromFirestore(
-              categories[_selectedCategoryIndex].toLowerCase());
+          await fetchUsersFromFirestore(categories[_selectedCategoryIndex]);
 
       setState(() {
         _users = fetchedUsers;
@@ -52,9 +51,9 @@ class _UserManagementPageState extends State<UserManagementPage> {
       String role) async {
     final querySnapshot = await FirebaseFirestore.instance
         .collection('users')
-        .where('role', isEqualTo: role)
+        .where('Speciality', isEqualTo: role)
         .get();
-
+    print(querySnapshot.docs);
     final users = querySnapshot.docs.map((doc) {
       return {
         'name': doc['name'],

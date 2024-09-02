@@ -98,6 +98,7 @@ class _MyJournalsScreenState extends State<MyJournalsScreen> {
                               builder: (context) => EditJournalScreen(
                                 title: journal['title']!,
                                 date: journal['date']!,
+                                id: '2',
                                 content: journal['content']!,
                               ),
                             ),

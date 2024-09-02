@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:doctor/screens/notepad.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 // import 'package:gap/gap.dart';
@@ -6,12 +8,13 @@ class EditJournalScreen extends StatelessWidget {
   final String title;
   final String date;
   final String content;
-
+  final String id;
   const EditJournalScreen({
     super.key,
     required this.title,
     required this.date,
     required this.content,
+    required this.id,
   });
 
   @override
@@ -63,14 +66,55 @@ class EditJournalScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             IconButton(
-                              color: Colors.blue,
-                              icon: const Icon(Icons.camera_alt),
-                              onPressed: () {},
+                              icon: Icon(Icons.delete),
+                              onPressed: () async {
+                                bool confirmed = await showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text('Delete Note'),
+                                      content: Text(
+                                          'Are you sure you want to delete this note?'),
+                                      actions: [
+                                        TextButton(
+                                          child: Text('Cancel'),
+                                          onPressed: () {
+                                            Navigator.pop(context, false);
+                                          },
+                                        ),
+                                        TextButton(
+                                          child: Text('Delete'),
+                                          onPressed: () {
+                                            Navigator.pop(context, true);
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+
+                                if (confirmed) {
+                                  await FirebaseFirestore.instance
+                                      .collection('notes')
+                                      .doc(id)
+                                      .delete();
+                                  Navigator.pop(context);
+                                }
+                              },
                             ),
                             IconButton(
                               color: Colors.blue,
                               icon: const Icon(Icons.edit),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AddEditNote(
+                                              content: content,
+                                              id: id,
+                                              title: title,
+                                            )));
+                              },
                             ),
                           ],
                         ),

@@ -1,6 +1,7 @@
 // lib/doctor_list_screen.dart
 
 import 'package:doctor/screens/chat_screen.dart';
+import 'package:doctor/screens/notepad.dart';
 import 'package:doctor/utils/models/doctor_model.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -52,11 +53,10 @@ class _MeditateFragmentState extends State<MeditateFragment> {
     double screenWidth = MediaQuery.of(context).size.width * 1.15;
 
     return Center(
-        child:
-             Image.asset(
-              'assets/images/take_notes.png',
-              height: 350,
-            ));
+        child: Image.asset(
+      'assets/images/take_notes.png',
+      height: 350,
+    ));
   }
 
   Widget _buildButton(BuildContext context) {
@@ -64,9 +64,7 @@ class _MeditateFragmentState extends State<MeditateFragment> {
         text: 'Start Jounaling Today',
         onPressed: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const MyJournalsScreen()));
+              context, MaterialPageRoute(builder: (context) => NotePad()));
         });
   }
 }
